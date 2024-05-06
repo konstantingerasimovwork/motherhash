@@ -24,3 +24,4 @@ class SignInPageLocators():
     CREATE_ACCOUNT_TITLE_RU = By.XPATH, '//p[text()= "Создать аккаунт"]'
     CREATE_ACCOUNT_TITLE_PT = By.XPATH, '//p[text() = "Criar uma Conta"]'
 
+    ERROR_MESSAGE = By.XPATH, '//span[contains(@class, "MuiTypography-root")]'

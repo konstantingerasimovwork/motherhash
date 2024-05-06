@@ -1,4 +1,4 @@
-import time
+import allure
 import pytest
 import data
 from authorization.pages.signin_page import SignInPage
@@ -8,64 +8,104 @@ from helpers import fake_email
 
 class TestSignIn():
 
-    # Проверка ввода зарегистрированного в базе email в поле ввода
-    @pytest.mark.parametrize('language, continue_button, title', [(signin.LANGUAGE_EN, signin.CONTINUE_BUTTON_EN, signin.WELCOME_TITLE_EN),
-                                                                  (signin.LANGUAGE_RU, signin.CONTINUE_BUTTON_RU, signin.WELCOME_TITLE_RU),
-                                                                  (signin.LANGUAGE_PT, signin.CONTINUE_BUTTON_PT, signin.WELCOME_TITLE_PT)])
-    def test_enter_registered_email(self, browser, language, continue_button, title):
+    @allure.title('Проверка ввода зарегистрированного в базе email в поле ввода - EN')
+    def test_enter_registered_email_en(self, browser):
         signin_page = SignInPage(browser)
         browser.get(data.URL_SIGNIN)
-        signin_page.change_language(language)
+        signin_page.change_en_language()
         signin_page.find_email_field_and_type_text(data.EXISTING_EMAIL)
-        signin_page.click_continue_button(continue_button)
+        signin_page.click_continue_en_button()
         signin_page.wait_password_url_to_be(data.URL_SIGNIN_PASSWORD)
         current_url = signin_page.get_welcome_page_url()
-        result = signin_page.find_welcome_title(title)
+        result = signin_page.find_welcome_title_en()
         assert current_url == data.URL_SIGNIN_PASSWORD and result, f'{current_url} не равен {data.URL_SIGNIN_PASSWORD} или не найден заголовок'
 
-    # Проверка ввода незарегистрированного в базе email в поле ввода
-    @pytest.mark.parametrize('language, continue_button, title', [(signin.LANGUAGE_EN, signin.CONTINUE_BUTTON_EN, signin.CREATE_ACCOUNT_TITLE_EN),
-                                                                  (signin.LANGUAGE_RU, signin.CONTINUE_BUTTON_RU, signin.CREATE_ACCOUNT_TITLE_RU),
-                                                                  (signin.LANGUAGE_PT, signin.CONTINUE_BUTTON_PT, signin.CREATE_ACCOUNT_TITLE_PT)])
-    def test_enter_unregistered_email(self, browser, language, continue_button, title):
+    @allure.title('Проверка ввода зарегистрированного в базе email в поле ввода - RU')
+    def test_enter_registered_email_ru(self, browser):
         signin_page = SignInPage(browser)
         browser.get(data.URL_SIGNIN)
-        signin_page.change_language(language)
+        signin_page.change_ru_language()
+        signin_page.find_email_field_and_type_text(data.EXISTING_EMAIL)
+        signin_page.click_continue_ru_button()
+        signin_page.wait_password_url_to_be(data.URL_SIGNIN_PASSWORD)
+        current_url = signin_page.get_welcome_page_url()
+        result = signin_page.find_welcome_title_ru()
+        assert current_url == data.URL_SIGNIN_PASSWORD and result, f'{current_url} не равен {data.URL_SIGNIN_PASSWORD} или не найден заголовок'
+
+    @allure.title('Проверка ввода зарегистрированного в базе email в поле ввода - PT')
+    def test_enter_registered_email_pt(self, browser):
+        signin_page = SignInPage(browser)
+        browser.get(data.URL_SIGNIN)
+        signin_page.change_pt_language()
+        signin_page.find_email_field_and_type_text(data.EXISTING_EMAIL)
+        signin_page.click_continue_pt_button()
+        signin_page.wait_password_url_to_be(data.URL_SIGNIN_PASSWORD)
+        current_url = signin_page.get_welcome_page_url()
+        result = signin_page.find_welcome_title_pt()
+        assert current_url == data.URL_SIGNIN_PASSWORD and result, f'{current_url} не равен {data.URL_SIGNIN_PASSWORD} или не найден заголовок'
+
+    @allure.title('Проверка ввода незарегистрированного в базе email в поле ввода - EN')
+    def test_enter_unregistered_email_en(self, browser):
+        signin_page = SignInPage(browser)
+        browser.get(data.URL_SIGNIN)
+        signin_page.change_en_language()
         signin_page.find_email_field_and_type_text(fake_email)
-        signin_page.click_continue_button(continue_button)
+        signin_page.click_continue_en_button()
         signin_page.wait_signup_url_to_be(data.URL_SIGNUP)
         current_url = signin_page.get_signup_page_url()
-        result = signin_page.find_welcome_title(title)
+        result = signin_page.find_create_account_title_en()
         assert current_url == data.URL_SIGNUP and result, f'{current_url} не равен {data.URL_SIGNUP} или не найден заголовок'
 
-    # Позитивные проверки для набора значений:
+    @allure.title('Проверка ввода незарегистрированного в базе email в поле ввода - RU')
+    def test_enter_unregistered_email_ru(self, browser):
+        signin_page = SignInPage(browser)
+        browser.get(data.URL_SIGNIN)
+        signin_page.change_ru_language()
+        signin_page.find_email_field_and_type_text(fake_email)
+        signin_page.click_continue_ru_button()
+        signin_page.wait_signup_url_to_be(data.URL_SIGNUP)
+        current_url = signin_page.get_signup_page_url()
+        result = signin_page.find_create_account_title_ru()
+        assert current_url == data.URL_SIGNUP and result, f'{current_url} не равен {data.URL_SIGNUP} или не найден заголовок'
+
+    @allure.title('Проверка ввода незарегистрированного в базе email в поле ввода - PT')
+    def test_enter_unregistered_email_pt(self, browser):
+        signin_page = SignInPage(browser)
+        browser.get(data.URL_SIGNIN)
+        signin_page.change_pt_language()
+        signin_page.find_email_field_and_type_text(fake_email)
+        signin_page.click_continue_pt_button()
+        signin_page.wait_signup_url_to_be(data.URL_SIGNUP)
+        current_url = signin_page.get_signup_page_url()
+        result = signin_page.find_create_account_title_pt()
+        assert current_url == data.URL_SIGNUP and result, f'{current_url} не равен {data.URL_SIGNUP} или не найден заголовок'
+
     # 1. Только цифры в локальном имени
-    # 2. Цифры после букв в локальном имени
-    # 3. Цифры до букв в локальном имени
-    # 4. Спецсимволы в локальном имени
-    # 5. Цифры после букв в доменном имени
-    # 6. Цифры до букв в доменном имени
-    # 7. Дефис в середине доменного имени
-    # 8. Кириллица в доменном имени
-    @pytest.mark.parametrize('email, continue_button, title', [('123@example.com', signin.CONTINUE_BUTTON_EN, signin.WELCOME_TITLE_EN),
-                                                               ('email123@example.com', signin.CONTINUE_BUTTON_EN, signin.WELCOME_TITLE_EN),
-                                                               ('123email@example.com', signin.CONTINUE_BUTTON_EN, signin.WELCOME_TITLE_EN),
-                                                               ('em!#ail@example.com', signin.CONTINUE_BUTTON_EN, signin.WELCOME_TITLE_EN),
-                                                               ('email@example123.com', signin.CONTINUE_BUTTON_EN, signin.WELCOME_TITLE_EN),
-                                                               ('email@123example.com', signin.CONTINUE_BUTTON_EN, signin.WELCOME_TITLE_EN),
-                                                               ('email@exa-mple.com', signin.CONTINUE_BUTTON_EN, signin.WELCOME_TITLE_EN),
-                                                               ('email@эксемпл.com', signin.CONTINUE_BUTTON_EN, signin.WELCOME_TITLE_EN)])
-    def test_valid_email_set_of_values(self, browser, email, continue_button, title):
+    # 2. Кириллица в локальном имени
+    # 3. Только цифры в доменном имени
+    # 4. Цифры после букв в локальном имени
+    # 5. Цифры до букв в локальном имени
+    # 6. Спецсимволы в локальном имени
+    # 7. Цифры после букв в доменном имени
+    # 8. Цифры до букв в доменном имени
+    # 9. Дефис в середине доменного имени
+    # 10. Кириллица в доменном имени
+    @pytest.mark.parametrize('email,', ['123@example.com', 'имэйл@example.com',
+                                       'email@123.com', 'email123@example.com',
+                                       '123email@example.com', 'em!#ail@example.com',
+                                       'email@example123.com', 'email@123example.com',
+                                       'email@exa-mple.com', 'email@эксемпл.com'])
+    @allure.title('Позитивные проверки для набора значений - {email}')
+    def test_valid_email_set_of_values(self, browser, email):
         signin_page = SignInPage(browser)
         browser.get(data.URL_SIGNIN)
         signin_page.find_email_field_and_type_text(email)
-        signin_page.click_continue_button(continue_button)
+        signin_page.click_continue_en_button()
         signin_page.wait_signup_url_to_be(data.URL_SIGNUP)
         current_url = signin_page.get_signup_page_url()
-        result = signin_page.find_welcome_title(title)
+        result = signin_page.find_create_account_title_en()
         assert current_url == data.URL_SIGNUP and result, f'{current_url} не равен {data.URL_SIGNUP} или не найден заголовок'
 
-    # Позитивные проверки для диапазона:
     # 1. Длинна локального имени 1 символ
     # 2. Длинна локального имени 2 символа
     # 3. Длинна локального имени 63 символа
@@ -74,53 +114,184 @@ class TestSignIn():
     # 6. Длина доменного имени 2 символа
     # 7. Длина доменного имени 62 символа
     # 8. Длина доменного имени 63 символа
-    @pytest.mark.parametrize('email, continue_button, title', [('e@example.com', signin.CONTINUE_BUTTON_EN, signin.WELCOME_TITLE_EN),
-                                                               ('em@example.com', signin.CONTINUE_BUTTON_EN, signin.WELCOME_TITLE_EN),
-                                                               ('emailemailemailemailemailemailemailemailemailemailemailemailema@example.com',
-                                                                signin.CONTINUE_BUTTON_EN, signin.WELCOME_TITLE_EN),
-                                                               ('emailemailemailemailemailemailemailemailemailemailemailemailemai@example.com', 
-                                                                signin.CONTINUE_BUTTON_EN, signin.WELCOME_TITLE_EN),
-                                                               ('email@e.com', signin.CONTINUE_BUTTON_EN,
-                                                                signin.WELCOME_TITLE_EN),
-                                                               ('email@em.com', signin.CONTINUE_BUTTON_EN,
-                                                                signin.WELCOME_TITLE_EN),
-                                                               ('email@exampleexampleexampleexampleexampleexampleexampleexampleexampl.com',
-                                                                signin.CONTINUE_BUTTON_EN, signin.WELCOME_TITLE_EN),
-                                                               ('email@exampleexampleexampleexampleexampleexampleexampleexampleexample.com', 
-                                                                signin.CONTINUE_BUTTON_EN, signin.WELCOME_TITLE_EN),])
-    def test_valid_email_range(self, browser, email, continue_button, title):
+    @pytest.mark.parametrize('email', ['e@example.com', 'em@example.com',
+                                       'emailemailemailemailemailemailemailemailemailemailemailemailema@example.com',
+                                       'emailemailemailemailemailemailemailemailemailemailemailemailemai@example.com',
+                                       'email@e.com', 'email@em.com', 
+                                       'email@exampleexampleexampleexampleexampleexampleexampleexampleexampl.com',
+                                       'email@exampleexampleexampleexampleexampleexampleexampleexampleexample.com'])
+    @allure.title('Позитивные проверки для диапазона - {email}')
+    def test_valid_email_range(self, browser, email):
         signin_page = SignInPage(browser)
         browser.get(data.URL_SIGNIN)
         signin_page.find_email_field_and_type_text(email)
-        signin_page.click_continue_button(continue_button)
+        signin_page.click_continue_en_button()
         signin_page.wait_signup_url_to_be(data.URL_SIGNUP)
         current_url = signin_page.get_signup_page_url()
-        result = signin_page.find_welcome_title(title)
+        result = signin_page.find_create_account_title_en()
         assert current_url == data.URL_SIGNUP and result, f'{current_url} не равен {data.URL_SIGNUP} или не найден заголовок'
 
-    # # Позитивные проверки для набора значений:
-    # # 1. Только цифры в локальном имени
-    # # 2. Цифры после букв в локальном имени
-    # # 3. Цифры до букв в локальном имени
-    # # 4. Спецсимволы в локальном имени
-    # # 5. Цифры после букв в доменном имени
-    # # 6. Цифры до букв в доменном имени
-    # # 7. Дефис в середине доменного имени
-    # # 8. Кириллица в доменном имени
-    # @pytest.mark.parametrize('email, continue_button, title', [('123@example.com', signin.CONTINUE_BUTTON_EN, signin.WELCOME_TITLE_EN),
-    #                                                            ('email123@example.com', signin.CONTINUE_BUTTON_EN, signin.WELCOME_TITLE_EN),
-    #                                                            ('123email@example.com', signin.CONTINUE_BUTTON_EN, signin.WELCOME_TITLE_EN),
-    #                                                            ('em!#ail@example.com', signin.CONTINUE_BUTTON_EN, signin.WELCOME_TITLE_EN),
-    #                                                            ('email@example123.com', signin.CONTINUE_BUTTON_EN, signin.WELCOME_TITLE_EN),
-    #                                                            ('email@123example.com', signin.CONTINUE_BUTTON_EN, signin.WELCOME_TITLE_EN),
-    #                                                            ('email@exa-mple.com', signin.CONTINUE_BUTTON_EN, signin.WELCOME_TITLE_EN),
-    #                                                            ('email@эксемпл.com', signin.CONTINUE_BUTTON_EN, signin.WELCOME_TITLE_EN)])
-    # def test_valid_email_set_of_values(self, browser, email, continue_button, title):
-    #     signin_page = SignInPage(browser)
-    #     browser.get(data.URL_SIGNIN)
-    #     signin_page.find_email_field_and_type_text(email)
-    #     signin_page.click_continue_button(continue_button)
-    #     signin_page.wait_signup_url_to_be(data.URL_SIGNUP)
-    #     current_url = signin_page.get_signup_page_url()
-    #     result = signin_page.find_welcome_title(title)
-    #     assert current_url == data.URL_SIGNUP and result, f'{current_url} не равен {data.URL_SIGNUP} или не найден заголовок'
+    @allure.title('Негативные проверки - EN: Пустое поле')
+    def test_empty_email_field_en(self, browser):
+        signin_page = SignInPage(browser)
+        browser.get(data.URL_SIGNIN)
+        signin_page.change_en_language()
+        signin_page.click_continue_en_button()
+        error_message = signin_page.find_and_get_error_message()
+        assert error_message == data.REQUIRED_FIELD_MESSAGE_EN, f'Сообщение об ошибке {error_message} не равно {data.REQUIRED_FIELD_MESSAGE_EN}'
+
+    @allure.title('Негативные проверки - RU: Пустое поле')
+    def test_empty_email_field_ru(self, browser):
+        signin_page = SignInPage(browser)
+        browser.get(data.URL_SIGNIN)
+        signin_page.change_ru_language()
+        signin_page.click_continue_ru_button()
+        error_message = signin_page.find_and_get_error_message()
+        assert error_message == data.REQUIRED_FIELD_MESSAGE_RU, f'Сообщение об ошибке {error_message} не равно {data.REQUIRED_FIELD_MESSAGE_RU}'
+
+    @allure.title('Негативные проверки - PT: Пустое поле')
+    def test_empty_email_field_pt(self, browser):
+        signin_page = SignInPage(browser)
+        browser.get(data.URL_SIGNIN)
+        signin_page.change_pt_language()
+        signin_page.click_continue_pt_button()
+        error_message = signin_page.find_and_get_error_message()
+        assert error_message == data.REQUIRED_FIELD_MESSAGE_PT, f'Сообщение об ошибке {error_message} не равно {data.REQUIRED_FIELD_MESSAGE_PT}'
+
+    # 1. Отсутствие знака @
+    # 2. Несколько @@
+    # 3. Пробел в середине строки
+    # 4. Отсутствие локального имени
+    # 5. Точка в начале локального имени
+    # 6. Точка в конце локального имени
+    # 7. Отсутствие доменного имени
+    # 8. Дефис в начале доменного имени
+    # 9. Дефис в конце доменного имени
+    @pytest.mark.parametrize('email', ['emailexample.com',
+                                       'email@email@example.com',
+                                       'email @example.com',
+                                       '@example.com',
+                                       '.email@example.com',
+                                       'email.@example.com',
+                                       'email@',
+                                       'email@ -example.com',
+                                       'email@example-.com'])
+    @allure.title('Негативные проверки для набора значений - EN - {email}')
+    def test_invalid_email_set_of_values_en(self, browser, email):
+        signin_page = SignInPage(browser)
+        browser.get(data.URL_SIGNIN)
+        signin_page.change_en_language()
+        signin_page.find_email_field_and_type_text(email)
+        signin_page.click_continue_en_button()
+        error_message = signin_page.find_and_get_error_message()
+        assert error_message == data.INCORRECT_FORMAT_MESSAGE_EN, f'Сообщение об ошибке {error_message} не равно {data.INCORRECT_FORMAT_MESSAGE_EN}'
+
+    # 1. Отсутствие знака @
+    # 2. Несколько @@
+    # 3. Пробел в середине строки
+    # 4. Отсутствие локального имени
+    # 5. Точка в начале локального имени
+    # 6. Точка в конце локального имени
+    # 7. Отсутствие доменного имени
+    # 8. Дефис в начале доменного имени
+    # 9. Дефис в конце доменного имени
+    @pytest.mark.parametrize('email', ['emailexample.com',
+                                       'email@email@example.com',
+                                       'email @example.com',
+                                       '@example.com',
+                                       '.email@example.com',
+                                       'email.@example.com',
+                                       'email@',
+                                       'email@ -example.com',
+                                       'email@example-.com'])
+    @allure.title('Негативные проверки для набора значений - RU - {email}')
+    def test_invalid_email_set_of_values_ru(self, browser, email):
+        signin_page = SignInPage(browser)
+        browser.get(data.URL_SIGNIN)
+        signin_page.change_ru_language()
+        signin_page.find_email_field_and_type_text(email)
+        signin_page.click_continue_ru_button()
+        error_message = signin_page.find_and_get_error_message()
+        assert error_message == data.INCORRECT_FORMAT_MESSAGE_RU, f'Сообщение об ошибке {error_message} не равно {data.INCORRECT_FORMAT_MESSAGE_RU}'
+
+    # 1. Отсутствие знака @
+    # 2. Несколько @@
+    # 3. Пробел в середине строки
+    # 4. Отсутствие локального имени
+    # 5. Точка в начале локального имени
+    # 6. Точка в конце локального имени
+    # 7. Отсутствие доменного имени
+    # 8. Дефис в начале доменного имени
+    # 9. Дефис в конце доменного имени
+    @pytest.mark.parametrize('email', ['emailexample.com',
+                                       'email@email@example.com',
+                                       'email @example.com',
+                                       '@example.com',
+                                       '.email@example.com',
+                                       'email.@example.com',
+                                       'email@',
+                                       'email@ -example.com',
+                                       'email@example-.com'])
+    @allure.title('Негативные проверки для набора значений - PT - {email}')
+    def test_invalid_email_set_of_values_pt(self, browser, email):
+        signin_page = SignInPage(browser)
+        browser.get(data.URL_SIGNIN)
+        signin_page.change_pt_language()
+        signin_page.find_email_field_and_type_text(email)
+        signin_page.click_continue_pt_button()
+        error_message = signin_page.find_and_get_error_message()
+        assert error_message == data.INCORRECT_FORMAT_MESSAGE_PT, f'Сообщение об ошибке {error_message} не равно {data.INCORRECT_FORMAT_MESSAGE_PT}'
+
+    # 1. Длинна локального имени 65 символов
+    # 2. Длинна локального имени 66 символов
+    # 3. Длина доменного имени 64 символа
+    # 4. Длина доменного имени 65 символов
+    @pytest.mark.parametrize('email', ['emailemailemailemailemailemailemailemailemailemailemailemailemail@example.com',
+                                       'emailemailemailemailemailemailemailemailemailemailemailemailemaile@example.com',
+                                       'email@exampleexampleexampleexampleexampleexampleexampleexampleexamplee.com',
+                                       'email@exampleexampleexampleexampleexampleexampleexampleexampleexampleex.com'])
+    @allure.title('Негативные проверки для диапазона - EN - {email}')
+    def test_invalid_email_range_en(self, browser, email):
+        signin_page = SignInPage(browser)
+        browser.get(data.URL_SIGNIN)
+        signin_page.change_en_language()
+        signin_page.find_email_field_and_type_text(email)
+        signin_page.click_continue_en_button()
+        error_message = signin_page.find_and_get_error_message()
+        assert error_message == data.INCORRECT_FORMAT_MESSAGE_EN, f'Сообщение об ошибке {error_message} не равно {data.INCORRECT_FORMAT_MESSAGE_EN}'
+
+    # 1. Длинна локального имени 65 символов
+    # 2. Длинна локального имени 66 символов
+    # 3. Длина доменного имени 64 символа
+    # 4. Длина доменного имени 65 символов
+    @pytest.mark.parametrize('email', ['emailemailemailemailemailemailemailemailemailemailemailemailemail@example.com',
+                                       'emailemailemailemailemailemailemailemailemailemailemailemailemaile@example.com',
+                                       'email@exampleexampleexampleexampleexampleexampleexampleexampleexamplee.com',
+                                       'email@exampleexampleexampleexampleexampleexampleexampleexampleexampleex.com'])
+    @allure.title('Негативные проверки для диапазона - RU - {email}')
+    def test_invalid_email_range_ru(self, browser, email):
+        signin_page = SignInPage(browser)
+        browser.get(data.URL_SIGNIN)
+        signin_page.change_ru_language()
+        signin_page.find_email_field_and_type_text(email)
+        signin_page.click_continue_ru_button()
+        error_message = signin_page.find_and_get_error_message()
+        assert error_message == data.INCORRECT_FORMAT_MESSAGE_RU, f'Сообщение об ошибке {error_message} не равно {data.INCORRECT_FORMAT_MESSAGE_RU}'
+
+    # 1. Длинна локального имени 65 символов
+    # 2. Длинна локального имени 66 символов
+    # 3. Длина доменного имени 64 символа
+    # 4. Длина доменного имени 65 символов
+    @pytest.mark.parametrize('email', ['emailemailemailemailemailemailemailemailemailemailemailemailemail@example.com',
+                                       'emailemailemailemailemailemailemailemailemailemailemailemailemaile@example.com',
+                                       'email@exampleexampleexampleexampleexampleexampleexampleexampleexamplee.com',
+                                       'email@exampleexampleexampleexampleexampleexampleexampleexampleexampleex.com'])
+    @allure.title('Негативные проверки для диапазона - PT - {email}')
+    def test_invalid_email_range_pt(self, browser, email):
+        signin_page = SignInPage(browser)
+        browser.get(data.URL_SIGNIN)
+        signin_page.change_pt_language()
+        signin_page.find_email_field_and_type_text(email)
+        signin_page.click_continue_pt_button()
+        error_message = signin_page.find_and_get_error_message()
+        assert error_message == data.INCORRECT_FORMAT_MESSAGE_PT, f'Сообщение об ошибке {error_message} не равно {data.INCORRECT_FORMAT_MESSAGE_PT}'

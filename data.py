@@ -29,5 +29,12 @@ URL_SIGNIN_PASSWORD = 'https://my.motherhash-dev.nhco.tech/signin/password'
 
 EXISTING_EMAIL = 'test@test.com'
 
+REQUIRED_FIELD_MESSAGE_EN = 'Required field'
+REQUIRED_FIELD_MESSAGE_RU = 'Обязательное поле'
+REQUIRED_FIELD_MESSAGE_PT = 'Campo obrigatório'
+
+INCORRECT_FORMAT_MESSAGE_EN = 'Email defined in incorrect format: .*'
+INCORRECT_FORMAT_MESSAGE_RU = 'Email определен в неверном формате: .*'
+INCORRECT_FORMAT_MESSAGE_PT = 'E-mail definido em formato incorreto: .*'
 
 
