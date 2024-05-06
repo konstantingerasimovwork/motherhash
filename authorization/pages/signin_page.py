@@ -7,36 +7,63 @@ from authorization.locators.signin_page_locators import SignInPageLocators as si
 
 class SignInPage(BasePage):
 
-    def change_en_language(self):
-        self.wait_visible_element(signin.LANGUAGE_BUTTON)
-        self.click_element(signin.LANGUAGE_BUTTON)
-        self.wait_visible_element(signin.LANGUAGE_MENU)
-        self.find_element(signin.LANGUAGE_EN).click()
+    # def change_en_language(self):
+    #     self.wait_visible_element(signin.LANGUAGE_BUTTON)
+    #     self.click_element(signin.LANGUAGE_BUTTON)
+    #     self.wait_visible_element(signin.LANGUAGE_MENU)
+    #     self.find_element(signin.LANGUAGE_EN).click()
 
-    def change_ru_language(self):
-        self.wait_visible_element(signin.LANGUAGE_BUTTON)
-        self.click_element(signin.LANGUAGE_BUTTON)
-        self.wait_visible_element(signin.LANGUAGE_MENU)
-        self.find_element(signin.LANGUAGE_RU).click()
+    # def change_ru_language(self):
+    #     self.wait_visible_element(signin.LANGUAGE_BUTTON)
+    #     self.click_element(signin.LANGUAGE_BUTTON)
+    #     self.wait_visible_element(signin.LANGUAGE_MENU)
+    #     self.find_element(signin.LANGUAGE_RU).click()
 
-    def change_pt_language(self):
-        self.wait_visible_element(signin.LANGUAGE_BUTTON)
-        self.click_element(signin.LANGUAGE_BUTTON)
-        self.wait_visible_element(signin.LANGUAGE_MENU)
-        self.find_element(signin.LANGUAGE_PT).click()
+    # def change_pt_language(self):
+    #     self.wait_visible_element(signin.LANGUAGE_BUTTON)
+    #     self.click_element(signin.LANGUAGE_BUTTON)
+    #     self.wait_visible_element(signin.LANGUAGE_MENU)
+    #     self.find_element(signin.LANGUAGE_PT).click()
+
+    def change_language(self, language):
+        if language == 'en':
+            self.wait_visible_element(signin.LANGUAGE_BUTTON)
+            self.click_element(signin.LANGUAGE_BUTTON)
+            self.wait_visible_element(signin.LANGUAGE_MENU)
+            self.find_element(signin.LANGUAGE_EN).click()
+        elif language == 'ru':
+            self.wait_visible_element(signin.LANGUAGE_BUTTON)
+            self.click_element(signin.LANGUAGE_BUTTON)
+            self.wait_visible_element(signin.LANGUAGE_MENU)
+            self.find_element(signin.LANGUAGE_RU).click()
+        elif language == 'pt':
+            self.wait_visible_element(signin.LANGUAGE_BUTTON)
+            self.click_element(signin.LANGUAGE_BUTTON)
+            self.wait_visible_element(signin.LANGUAGE_MENU)
+            self.find_element(signin.LANGUAGE_PT).click()
+
+
 
     def find_email_field_and_type_text(self, email):
         self.wait_visible_element(signin.SIGNIN_EMAIL_FIELD)
         self.type_text(signin.SIGNIN_EMAIL_FIELD, email)
 
-    def click_continue_en_button(self):
-        self.click_element(signin.CONTINUE_BUTTON_EN)
+    # def click_continue_en_button(self):
+    #     self.click_element(signin.CONTINUE_BUTTON_EN)
     
-    def click_continue_ru_button(self):
-        self.click_element(signin.CONTINUE_BUTTON_RU)
+    # def click_continue_ru_button(self):
+    #     self.click_element(signin.CONTINUE_BUTTON_RU)
 
-    def click_continue_pt_button(self):
-        self.click_element(signin.CONTINUE_BUTTON_PT)
+    # def click_continue_pt_button(self):
+    #     self.click_element(signin.CONTINUE_BUTTON_PT)
+
+    def click_continue_button(self, language):
+        if language == 'en':
+            self.click_element(signin.CONTINUE_BUTTON_EN)
+        elif language == 'ru':
+            self.click_element(signin.CONTINUE_BUTTON_RU)
+        elif language == 'pt':
+            self.click_element(signin.CONTINUE_BUTTON_PT)
 
     def get_welcome_page_url(self):
         return self.get_current_url()

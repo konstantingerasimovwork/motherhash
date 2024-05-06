@@ -28,6 +28,8 @@ FAQ_PT_TEXT = 'Perguntas frequentes'
 URL_SIGNIN_PASSWORD = 'https://my.motherhash-dev.nhco.tech/signin/password'
 
 EXISTING_EMAIL = 'test@test.com'
+EXISTING_PASSWORD = '12345678'
+NONEXISTING_PASSWORD = '87654321'
 
 REQUIRED_FIELD_MESSAGE_EN = 'Required field'
 REQUIRED_FIELD_MESSAGE_RU = 'Обязательное поле'
@@ -38,3 +40,5 @@ INCORRECT_FORMAT_MESSAGE_RU = 'Email определен в неверном фо
 INCORRECT_FORMAT_MESSAGE_PT = 'E-mail definido em formato incorreto: .*'
 
 
+
+URL_LK_DASHBOARD = 'https://my.motherhash-dev.nhco.tech/dashboard'

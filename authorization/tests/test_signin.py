@@ -6,78 +6,32 @@ from authorization.locators.signin_page_locators import SignInPageLocators as si
 from helpers import fake_email
 
 
-class TestSignIn():
+class TestSignInEmail():
 
-    @allure.title('Проверка ввода зарегистрированного в базе email в поле ввода - EN')
-    def test_enter_registered_email_en(self, browser):
+    @pytest.mark.parametrize('language', ['en', 'ru', 'pt'])
+    @allure.title('Проверка ввода зарегистрированного в базе email в поле ввода - {language}')
+    def test_enter_registered_email_en(self, browser, language):
         signin_page = SignInPage(browser)
         browser.get(data.URL_SIGNIN)
-        signin_page.change_en_language()
+        signin_page.change_language(language)
         signin_page.find_email_field_and_type_text(data.EXISTING_EMAIL)
-        signin_page.click_continue_en_button()
+        signin_page.click_continue_button(language)
         signin_page.wait_password_url_to_be(data.URL_SIGNIN_PASSWORD)
         current_url = signin_page.get_welcome_page_url()
         result = signin_page.find_welcome_title_en()
         assert current_url == data.URL_SIGNIN_PASSWORD and result, f'{current_url} не равен {data.URL_SIGNIN_PASSWORD} или не найден заголовок'
 
-    @allure.title('Проверка ввода зарегистрированного в базе email в поле ввода - RU')
-    def test_enter_registered_email_ru(self, browser):
+    @pytest.mark.parametrize('language', ['en', 'ru', 'pt'])
+    @allure.title('Проверка ввода незарегистрированного в базе email в поле ввода - {language}')
+    def test_enter_unregistered_email_en(self, browser, language):
         signin_page = SignInPage(browser)
         browser.get(data.URL_SIGNIN)
-        signin_page.change_ru_language()
-        signin_page.find_email_field_and_type_text(data.EXISTING_EMAIL)
-        signin_page.click_continue_ru_button()
-        signin_page.wait_password_url_to_be(data.URL_SIGNIN_PASSWORD)
-        current_url = signin_page.get_welcome_page_url()
-        result = signin_page.find_welcome_title_ru()
-        assert current_url == data.URL_SIGNIN_PASSWORD and result, f'{current_url} не равен {data.URL_SIGNIN_PASSWORD} или не найден заголовок'
-
-    @allure.title('Проверка ввода зарегистрированного в базе email в поле ввода - PT')
-    def test_enter_registered_email_pt(self, browser):
-        signin_page = SignInPage(browser)
-        browser.get(data.URL_SIGNIN)
-        signin_page.change_pt_language()
-        signin_page.find_email_field_and_type_text(data.EXISTING_EMAIL)
-        signin_page.click_continue_pt_button()
-        signin_page.wait_password_url_to_be(data.URL_SIGNIN_PASSWORD)
-        current_url = signin_page.get_welcome_page_url()
-        result = signin_page.find_welcome_title_pt()
-        assert current_url == data.URL_SIGNIN_PASSWORD and result, f'{current_url} не равен {data.URL_SIGNIN_PASSWORD} или не найден заголовок'
-
-    @allure.title('Проверка ввода незарегистрированного в базе email в поле ввода - EN')
-    def test_enter_unregistered_email_en(self, browser):
-        signin_page = SignInPage(browser)
-        browser.get(data.URL_SIGNIN)
-        signin_page.change_en_language()
+        signin_page.change_language(language)
         signin_page.find_email_field_and_type_text(fake_email)
-        signin_page.click_continue_en_button()
+        signin_page.click_continue_button(language)
         signin_page.wait_signup_url_to_be(data.URL_SIGNUP)
         current_url = signin_page.get_signup_page_url()
         result = signin_page.find_create_account_title_en()
-        assert current_url == data.URL_SIGNUP and result, f'{current_url} не равен {data.URL_SIGNUP} или не найден заголовок'
-
-    @allure.title('Проверка ввода незарегистрированного в базе email в поле ввода - RU')
-    def test_enter_unregistered_email_ru(self, browser):
-        signin_page = SignInPage(browser)
-        browser.get(data.URL_SIGNIN)
-        signin_page.change_ru_language()
-        signin_page.find_email_field_and_type_text(fake_email)
-        signin_page.click_continue_ru_button()
-        signin_page.wait_signup_url_to_be(data.URL_SIGNUP)
-        current_url = signin_page.get_signup_page_url()
-        result = signin_page.find_create_account_title_ru()
-        assert current_url == data.URL_SIGNUP and result, f'{current_url} не равен {data.URL_SIGNUP} или не найден заголовок'
-
-    @allure.title('Проверка ввода незарегистрированного в базе email в поле ввода - PT')
-    def test_enter_unregistered_email_pt(self, browser):
-        signin_page = SignInPage(browser)
-        browser.get(data.URL_SIGNIN)
-        signin_page.change_pt_language()
-        signin_page.find_email_field_and_type_text(fake_email)
-        signin_page.click_continue_pt_button()
-        signin_page.wait_signup_url_to_be(data.URL_SIGNUP)
-        current_url = signin_page.get_signup_page_url()
-        result = signin_page.find_create_account_title_pt()
         assert current_url == data.URL_SIGNUP and result, f'{current_url} не равен {data.URL_SIGNUP} или не найден заголовок'
 
     # 1. Только цифры в локальном имени
@@ -100,7 +54,7 @@ class TestSignIn():
         signin_page = SignInPage(browser)
         browser.get(data.URL_SIGNIN)
         signin_page.find_email_field_and_type_text(email)
-        signin_page.click_continue_en_button()
+        signin_page.click_continue_button('en')
         signin_page.wait_signup_url_to_be(data.URL_SIGNUP)
         current_url = signin_page.get_signup_page_url()
         result = signin_page.find_create_account_title_en()
@@ -125,38 +79,23 @@ class TestSignIn():
         signin_page = SignInPage(browser)
         browser.get(data.URL_SIGNIN)
         signin_page.find_email_field_and_type_text(email)
-        signin_page.click_continue_en_button()
+        signin_page.click_continue_button('en')
         signin_page.wait_signup_url_to_be(data.URL_SIGNUP)
         current_url = signin_page.get_signup_page_url()
         result = signin_page.find_create_account_title_en()
         assert current_url == data.URL_SIGNUP and result, f'{current_url} не равен {data.URL_SIGNUP} или не найден заголовок'
 
-    @allure.title('Негативные проверки - EN: Пустое поле')
-    def test_empty_email_field_en(self, browser):
+    @pytest.mark.parametrize('language, expected_error_message', [('en', data.REQUIRED_FIELD_MESSAGE_EN),
+                                                                  ('ru', data.REQUIRED_FIELD_MESSAGE_RU), 
+                                                                  ('pt', data.REQUIRED_FIELD_MESSAGE_PT)])
+    @allure.title('Негативные проверки - {language}: Пустое поле')
+    def test_empty_email_field_en(self, browser, language, expected_error_message):
         signin_page = SignInPage(browser)
         browser.get(data.URL_SIGNIN)
-        signin_page.change_en_language()
-        signin_page.click_continue_en_button()
+        signin_page.change_language(language)
+        signin_page.click_continue_button(language)
         error_message = signin_page.find_and_get_error_message()
-        assert error_message == data.REQUIRED_FIELD_MESSAGE_EN, f'Сообщение об ошибке {error_message} не равно {data.REQUIRED_FIELD_MESSAGE_EN}'
-
-    @allure.title('Негативные проверки - RU: Пустое поле')
-    def test_empty_email_field_ru(self, browser):
-        signin_page = SignInPage(browser)
-        browser.get(data.URL_SIGNIN)
-        signin_page.change_ru_language()
-        signin_page.click_continue_ru_button()
-        error_message = signin_page.find_and_get_error_message()
-        assert error_message == data.REQUIRED_FIELD_MESSAGE_RU, f'Сообщение об ошибке {error_message} не равно {data.REQUIRED_FIELD_MESSAGE_RU}'
-
-    @allure.title('Негативные проверки - PT: Пустое поле')
-    def test_empty_email_field_pt(self, browser):
-        signin_page = SignInPage(browser)
-        browser.get(data.URL_SIGNIN)
-        signin_page.change_pt_language()
-        signin_page.click_continue_pt_button()
-        error_message = signin_page.find_and_get_error_message()
-        assert error_message == data.REQUIRED_FIELD_MESSAGE_PT, f'Сообщение об ошибке {error_message} не равно {data.REQUIRED_FIELD_MESSAGE_PT}'
+        assert error_message == expected_error_message, f'Сообщение об ошибке {error_message} не равно {expected_error_message}'
 
     # 1. Отсутствие знака @
     # 2. Несколько @@
@@ -180,9 +119,9 @@ class TestSignIn():
     def test_invalid_email_set_of_values_en(self, browser, email):
         signin_page = SignInPage(browser)
         browser.get(data.URL_SIGNIN)
-        signin_page.change_en_language()
+        signin_page.change_language('en')
         signin_page.find_email_field_and_type_text(email)
-        signin_page.click_continue_en_button()
+        signin_page.click_continue_button('en')
         error_message = signin_page.find_and_get_error_message()
         assert error_message == data.INCORRECT_FORMAT_MESSAGE_EN, f'Сообщение об ошибке {error_message} не равно {data.INCORRECT_FORMAT_MESSAGE_EN}'
 
@@ -208,9 +147,9 @@ class TestSignIn():
     def test_invalid_email_set_of_values_ru(self, browser, email):
         signin_page = SignInPage(browser)
         browser.get(data.URL_SIGNIN)
-        signin_page.change_ru_language()
+        signin_page.change_language('ru')
         signin_page.find_email_field_and_type_text(email)
-        signin_page.click_continue_ru_button()
+        signin_page.click_continue_button('ru')
         error_message = signin_page.find_and_get_error_message()
         assert error_message == data.INCORRECT_FORMAT_MESSAGE_RU, f'Сообщение об ошибке {error_message} не равно {data.INCORRECT_FORMAT_MESSAGE_RU}'
 
@@ -236,9 +175,9 @@ class TestSignIn():
     def test_invalid_email_set_of_values_pt(self, browser, email):
         signin_page = SignInPage(browser)
         browser.get(data.URL_SIGNIN)
-        signin_page.change_pt_language()
+        signin_page.change_language('pt')
         signin_page.find_email_field_and_type_text(email)
-        signin_page.click_continue_pt_button()
+        signin_page.click_continue_button('pt')
         error_message = signin_page.find_and_get_error_message()
         assert error_message == data.INCORRECT_FORMAT_MESSAGE_PT, f'Сообщение об ошибке {error_message} не равно {data.INCORRECT_FORMAT_MESSAGE_PT}'
 
@@ -254,9 +193,9 @@ class TestSignIn():
     def test_invalid_email_range_en(self, browser, email):
         signin_page = SignInPage(browser)
         browser.get(data.URL_SIGNIN)
-        signin_page.change_en_language()
+        signin_page.change_language('en')
         signin_page.find_email_field_and_type_text(email)
-        signin_page.click_continue_en_button()
+        signin_page.click_continue_button('en')
         error_message = signin_page.find_and_get_error_message()
         assert error_message == data.INCORRECT_FORMAT_MESSAGE_EN, f'Сообщение об ошибке {error_message} не равно {data.INCORRECT_FORMAT_MESSAGE_EN}'
 
@@ -272,9 +211,9 @@ class TestSignIn():
     def test_invalid_email_range_ru(self, browser, email):
         signin_page = SignInPage(browser)
         browser.get(data.URL_SIGNIN)
-        signin_page.change_ru_language()
+        signin_page.change_language('ru')
         signin_page.find_email_field_and_type_text(email)
-        signin_page.click_continue_ru_button()
+        signin_page.click_continue_button('ru')
         error_message = signin_page.find_and_get_error_message()
         assert error_message == data.INCORRECT_FORMAT_MESSAGE_RU, f'Сообщение об ошибке {error_message} не равно {data.INCORRECT_FORMAT_MESSAGE_RU}'
 
@@ -290,8 +229,8 @@ class TestSignIn():
     def test_invalid_email_range_pt(self, browser, email):
         signin_page = SignInPage(browser)
         browser.get(data.URL_SIGNIN)
-        signin_page.change_pt_language()
+        signin_page.change_language('pt')
         signin_page.find_email_field_and_type_text(email)
-        signin_page.click_continue_pt_button()
+        signin_page.click_continue_button('pt')
         error_message = signin_page.find_and_get_error_message()
         assert error_message == data.INCORRECT_FORMAT_MESSAGE_PT, f'Сообщение об ошибке {error_message} не равно {data.INCORRECT_FORMAT_MESSAGE_PT}'
