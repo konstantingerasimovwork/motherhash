@@ -40,5 +40,14 @@ INCORRECT_FORMAT_MESSAGE_RU = 'Email определен в неверном фо
 INCORRECT_FORMAT_MESSAGE_PT = 'E-mail definido em formato incorreto: .*'
 
 
+URL_FORGOT_PASSWORD = 'https://my.motherhash-dev.nhco.tech/reset-password'
+PLACEHOLDER_PASSWORD_FIELD_EN = 'Password must be at least 8 characters long'
+PLACEHOLDER_PASSWORD_FIELD_RU = 'Пароль должен быть не меньше 8 знаков'
+PLACEHOLDER_PASSWORD_FIELD_PT = 'A senha deve ter pelo menos 8 caracteres'
+
+
+
+
+
 
 URL_LK_DASHBOARD = 'https://my.motherhash-dev.nhco.tech/dashboard'

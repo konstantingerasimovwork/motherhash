@@ -41,22 +41,3 @@ def login(browser, request):
     signin_page.wait_signup_url_to_be(data.URL_SIGNIN_PASSWORD)
     return request.param
 
-# # Ввод зарегистрированного email - RU
-# @pytest.fixture(scope="function")
-# def login_ru(browser):
-#     signin_page = SignInPage(browser)
-#     browser.get(data.URL_SIGNIN)
-#     signin_page.find_email_field_and_type_text(data.EXISTING_EMAIL)
-#     signin_page.click_continue_ru_button()
-#     signin_page.wait_signup_url_to_be(data.URL_SIGNUP)
-#     yield signin_page
-
-# # Ввод зарегистрированного email - PT
-# @pytest.fixture(scope="function")
-# def login_pt(browser):
-#     signin_page = SignInPage(browser)
-#     browser.get(data.URL_SIGNIN)
-#     signin_page.find_email_field_and_type_text(data.EXISTING_EMAIL)
-#     signin_page.click_continue_pt_button()
-#     signin_page.wait_signup_url_to_be(data.URL_SIGNUP)
-#     yield signin_page
