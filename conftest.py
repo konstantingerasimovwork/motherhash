@@ -1,4 +1,5 @@
 import pytest
+import allure
 import data
 from selenium import webdriver
 # from selenium.webdriver.firefox.options import Options
@@ -19,6 +20,7 @@ from authorization.pages.signin_page import SignInPage
 
 # подключение драйвера Chrome
 @pytest.fixture(scope="function")
+@allure.title('Инициализация драйвера')
 def browser():
     options = Options()
     options.add_argument('--window-size=1920,1080')
@@ -32,6 +34,7 @@ def browser():
 
 #Ввод зарегистрированного email
 @pytest.fixture(scope="function", params=['en', 'ru', 'pt'])
+@allure.title('Логин существующего пользователя')
 def login(browser, request):
     signin_page = SignInPage(browser)
     browser.get(data.URL_SIGNIN)
