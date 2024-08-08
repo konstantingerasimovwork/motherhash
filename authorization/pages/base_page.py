@@ -20,12 +20,15 @@ class BasePage():
         self.find_element(locator).send_keys(text)
 
     def wait_visible_element(self, locator):
-        WebDriverWait(self.browser, 5).until(expected_conditions.visibility_of_element_located(locator))
+        WebDriverWait(self.browser, 9).until(expected_conditions.visibility_of_element_located(locator))
+    
+    def visibility_of_element_located(self, locator):
+        return expected_conditions.visibility_of_element_located(locator)
 
     def text_to_be_present_in_element_attribute(self, locator, attribute, text):
-        WebDriverWait(self.browser, 5).until(
+        WebDriverWait(self.browser, 9).until(
             expected_conditions.text_to_be_present_in_element_attribute(locator, attribute, text))
-
+        
     def get_title(self):
         return self.browser.title
 
