@@ -9,7 +9,6 @@ from helpers import fake_email
 class TestSignInEmail():
 
     @allure.sub_suite('1. Проверка ввода зарегистрированного в базе email в поле ввода')
-    @pytest.mark.parametrize('language', ['en', 'ru', 'pt'])
     def test_enter_registered_email(self, browser, language):
         allure.dynamic.title(
             f'{language}  - Проверка ввода зарегистрированного в базе email в поле ввода')
@@ -24,7 +23,6 @@ class TestSignInEmail():
         assert current_url == data.URL_SIGNIN_PASSWORD and result, f'{current_url} не равен {data.URL_SIGNIN_PASSWORD} или не найден заголовок'
 
     @allure.sub_suite('2. Проверка ввода незарегистрированного в базе email в поле ввода')
-    @pytest.mark.parametrize('language', ['en', 'ru', 'pt'])
     def test_enter_unregistered_email(self, browser, language):
         allure.dynamic.title(
             f'{language}  - Проверка ввода незарегистрированного в базе email в поле ввода')
@@ -85,9 +83,6 @@ class TestSignInEmail():
         assert current_url == data.URL_SIGNUP and result, f'{current_url} не равен {data.URL_SIGNUP} или не найден заголовок'
 
     @allure.sub_suite('5. Негативные проверки: Пустое поле')
-    @pytest.mark.parametrize('language, expected_error_message', [('en', data.REQUIRED_FIELD_MESSAGE_EN),
-                                                                  ('ru', data.REQUIRED_FIELD_MESSAGE_RU), 
-                                                                  ('pt', data.REQUIRED_FIELD_MESSAGE_PT)])
     def test_empty_email_field_en(self, browser, language, expected_error_message):
         allure.dynamic.title(
             f'{language}  - Негативные проверки: Пустое поле')
@@ -96,9 +91,15 @@ class TestSignInEmail():
         signin_page.change_language(language)
         signin_page.click_continue_button(language)
         error_message = signin_page.find_and_get_error_message()
+        if language == 'en':
+            expected_error_message = data.REQUIRED_FIELD_MESSAGE_EN
+        if language == 'ru':
+            expected_error_message = data.REQUIRED_FIELD_MESSAGE_RU
+        if language == 'pt':
+            expected_error_message = data.REQUIRED_FIELD_MESSAGE_PT
         assert error_message == expected_error_message, f'Сообщение об ошибке {error_message} не равно {expected_error_message}'
 
-    @allure.sub_suite('6. EN - Негативные проверки для набора значений')
+    @allure.sub_suite('6. Негативные проверки для набора значений')
     @pytest.mark.parametrize('email, description', [('emailexample.com', 'Отсутствие знака @'),
                                                     ('email@email@example.com', 'Несколько @@'),
                                                     ('email @example.com', 'Пробел в середине строки'),
@@ -108,103 +109,41 @@ class TestSignInEmail():
                                                     ('email@', 'Отсутствие доменного имени'),
                                                     ('email@ -example.com', 'Дефис в начале доменного имени'),
                                                     ('email@example-.com', 'Дефис в конце доменного имени')])
-    def test_invalid_email_set_of_values_en(self, browser, email, description):
+    def test_invalid_email_set_of_values_en(self, browser, language, email, description):
         allure.dynamic.title(
-            f'EN - Негативные проверки для набора значений - {description}')
+            f'{language} - Негативные проверки для набора значений - {description}')
         signin_page = SignInPage(browser)
         browser.get(data.URL_SIGNIN)
-        signin_page.change_language('en')
+        signin_page.change_language(language)
         signin_page.find_email_field_and_type_text(email)
-        signin_page.click_continue_button('en')
+        signin_page.click_continue_button(language)
         error_message = signin_page.find_and_get_error_message()
-        assert error_message == data.INCORRECT_FORMAT_MESSAGE_EN, f'Сообщение об ошибке {error_message} не равно {data.INCORRECT_FORMAT_MESSAGE_EN}'
+        if language == 'en':
+            expected_error_message = data.INCORRECT_FORMAT_MESSAGE_EN
+        if language == 'ru':
+            expected_error_message = data.INCORRECT_FORMAT_MESSAGE_RU
+        if language == 'pt':
+            expected_error_message = data.INCORRECT_FORMAT_MESSAGE_PT
+        assert error_message == expected_error_message, f'Сообщение об ошибке {error_message} не равно {expected_error_message}'
 
-    @allure.sub_suite('7. RU - Негативные проверки для набора значений')
-    @pytest.mark.parametrize('email, description', [('emailexample.com', 'Отсутствие знака @'),
-                                                    ('email@email@example.com', 'Несколько @@'),
-                                                    ('email @example.com', 'Пробел в середине строки'),
-                                                    ('@example.com', 'Отсутствие локального имени'),
-                                                    ('.email@example.com', 'Точка в начале локального имени'),
-                                                    ('email.@example.com', 'Точка в конце локального имени'),
-                                                    ('email@', 'Отсутствие доменного имени'),
-                                                    ('email@ -example.com', 'Дефис в начале доменного имени'),
-                                                    ('email@example-.com', 'Дефис в конце доменного имени')])
-    def test_invalid_email_set_of_values_ru(self, browser, email, description):
-        allure.dynamic.title(
-            f'RU - Негативные проверки для набора значений - {description}')
-        signin_page = SignInPage(browser)
-        browser.get(data.URL_SIGNIN)
-        signin_page.change_language('ru')
-        signin_page.find_email_field_and_type_text(email)
-        signin_page.click_continue_button('ru')
-        error_message = signin_page.find_and_get_error_message()
-        assert error_message == data.INCORRECT_FORMAT_MESSAGE_RU, f'Сообщение об ошибке {error_message} не равно {data.INCORRECT_FORMAT_MESSAGE_RU}'
-
-    @allure.sub_suite('8. PT - Негативные проверки для набора значений')
-    @pytest.mark.parametrize('email, description', [('emailexample.com', 'Отсутствие знака @'),
-                                                    ('email@email@example.com', 'Несколько @@'),
-                                                    ('email @example.com', 'Пробел в середине строки'),
-                                                    ('@example.com', 'Отсутствие локального имени'),
-                                                    ('.email@example.com', 'Точка в начале локального имени'),
-                                                    ('email.@example.com', 'Точка в конце локального имени'),
-                                                    ('email@', 'Отсутствие доменного имени'),
-                                                    ('email@ -example.com', 'Дефис в начале доменного имени'),
-                                                    ('email@example-.com', 'Дефис в конце доменного имени')])
-    def test_invalid_email_set_of_values_pt(self, browser, email, description):
-        allure.dynamic.title(
-            f'PT - Негативные проверки для набора значений - {description}')
-        signin_page = SignInPage(browser)
-        browser.get(data.URL_SIGNIN)
-        signin_page.change_language('pt')
-        signin_page.find_email_field_and_type_text(email)
-        signin_page.click_continue_button('pt')
-        error_message = signin_page.find_and_get_error_message()
-        assert error_message == data.INCORRECT_FORMAT_MESSAGE_PT, f'Сообщение об ошибке {error_message} не равно {data.INCORRECT_FORMAT_MESSAGE_PT}'
-
-    @allure.sub_suite('9. EN - Негативные проверки для диапазона')
+    @allure.sub_suite('7. Негативные проверки для диапазона')
     @pytest.mark.parametrize('email, description', [('emailemailemailemailemailemailemailemailemailemailemailemailemail@example.com', 'Длинна локального имени 65 символов'),
                                        ('emailemailemailemailemailemailemailemailemailemailemailemailemaile@example.com', 'Длинна локального имени 66 символов'),
                                        ('email@exampleexampleexampleexampleexampleexampleexampleexampleexamplee.com', 'Длина доменного имени 64 символа'),
                                        ('email@exampleexampleexampleexampleexampleexampleexampleexampleexampleex.com', 'Длина доменного имени 65 символов')])
-    def test_invalid_email_range_en(self, browser, email, description):
+    def test_invalid_email_range_en(self, browser, language, email, description):
         allure.dynamic.title(
-            f'EN - Негативные проверки для диапазона - {description}')
+            f'{language} - Негативные проверки для диапазона - {description}')
         signin_page = SignInPage(browser)
         browser.get(data.URL_SIGNIN)
-        signin_page.change_language('en')
+        signin_page.change_language(language)
         signin_page.find_email_field_and_type_text(email)
-        signin_page.click_continue_button('en')
+        signin_page.click_continue_button(language)
         error_message = signin_page.find_and_get_error_message()
-        assert error_message == data.INCORRECT_FORMAT_MESSAGE_EN, f'Сообщение об ошибке {error_message} не равно {data.INCORRECT_FORMAT_MESSAGE_EN}'
-
-    @allure.sub_suite('10. RU - Негативные проверки для диапазона')
-    @pytest.mark.parametrize('email, description', [('emailemailemailemailemailemailemailemailemailemailemailemailemail@example.com', 'Длинна локального имени 65 символов'),
-                                       ('emailemailemailemailemailemailemailemailemailemailemailemailemaile@example.com', 'Длинна локального имени 66 символов'),
-                                       ('email@exampleexampleexampleexampleexampleexampleexampleexampleexamplee.com', 'Длина доменного имени 64 символа'),
-                                       ('email@exampleexampleexampleexampleexampleexampleexampleexampleexampleex.com', 'Длина доменного имени 65 символов')])
-    def test_invalid_email_range_ru(self, browser, email, description):
-        allure.dynamic.title(
-            f'RU - Негативные проверки для диапазона - {description}')
-        signin_page = SignInPage(browser)
-        browser.get(data.URL_SIGNIN)
-        signin_page.change_language('ru')
-        signin_page.find_email_field_and_type_text(email)
-        signin_page.click_continue_button('ru')
-        error_message = signin_page.find_and_get_error_message()
-        assert error_message == data.INCORRECT_FORMAT_MESSAGE_RU, f'Сообщение об ошибке {error_message} не равно {data.INCORRECT_FORMAT_MESSAGE_RU}'
-
-    @allure.sub_suite('11. PT - Негативные проверки для диапазона')
-    @pytest.mark.parametrize('email, description', [('emailemailemailemailemailemailemailemailemailemailemailemailemail@example.com', 'Длинна локального имени 65 символов'),
-                                       ('emailemailemailemailemailemailemailemailemailemailemailemailemaile@example.com', 'Длинна локального имени 66 символов'),
-                                       ('email@exampleexampleexampleexampleexampleexampleexampleexampleexamplee.com', 'Длина доменного имени 64 символа'),
-                                       ('email@exampleexampleexampleexampleexampleexampleexampleexampleexampleex.com', 'Длина доменного имени 65 символов')])
-    def test_invalid_email_range_pt(self, browser, email, description):
-        allure.dynamic.title(
-            f' PT - Негативные проверки для диапазона - {description}')
-        signin_page = SignInPage(browser)
-        browser.get(data.URL_SIGNIN)
-        signin_page.change_language('pt')
-        signin_page.find_email_field_and_type_text(email)
-        signin_page.click_continue_button('pt')
-        error_message = signin_page.find_and_get_error_message()
-        assert error_message == data.INCORRECT_FORMAT_MESSAGE_PT, f'Сообщение об ошибке {error_message} не равно {data.INCORRECT_FORMAT_MESSAGE_PT}'
+        if language == 'en':
+            expected_error_message = data.INCORRECT_FORMAT_MESSAGE_EN
+        if language == 'ru':
+            expected_error_message = data.INCORRECT_FORMAT_MESSAGE_RU
+        if language == 'pt':
+            expected_error_message = data.INCORRECT_FORMAT_MESSAGE_PT
+        assert error_message == expected_error_message, f'Сообщение об ошибке {error_message} не равно {expected_error_message}'

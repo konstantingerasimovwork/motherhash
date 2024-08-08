@@ -45,7 +45,7 @@ class TestResetPassword():
         password.click_forgot_password_button(language)
         password.wait_url_to_be(data.URL_FORGOT_PASSWORD)
         email = password.get_email_reset_password_page()
-        excepted_email = data.EMAIL_RESET_PASSWORD
+        excepted_email = data.EXISTING_EMAIL
         assert email == excepted_email, f'Email {email} не соответствует ожидаемому {excepted_email}'
 
     @allure.sub_suite('4. Проверка наличия ссылки Change email/Alterar email/Изменить электронную почту')

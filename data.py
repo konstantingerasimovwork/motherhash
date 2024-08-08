@@ -54,7 +54,6 @@ URL_FORGOT_PASSWORD = 'https://my.motherhash-dev.nhco.tech/reset-password'
 TITLE_RESET_PASSWORD_EN = 'Reset Password'
 TITLE_RESET_PASSWORD_RU = 'Сброс пароля'
 TITLE_RESET_PASSWORD_PT = 'Redefinir senha'
-EMAIL_RESET_PASSWORD = 'test@test.com'
 
 PLACEHOLDER_PASSWORD_FIELD_EN = 'Password must be at least 8 characters long'
 PLACEHOLDER_PASSWORD_FIELD_RU = 'Пароль должен содержать не менее 8 символов'
@@ -65,5 +64,8 @@ TITLE_VERIFICATION_CODE_EN = 'Check Your Email'
 TITLE_VERIFICATION_CODE_RU = 'Проверьте свою почту'
 TITLE_VERIFICATION_CODE_PT = 'Verifique seu email'
 
+TITLE_SIGNUP_PASSWORD_EN = 'Create an Account'
+TITLE_SIGNUP_PASSWORD_RU = 'Создать аккаунт'
+TITLE_SIGNUP_PASSWORD_PT = 'Criar conta'
 
 URL_LK_DASHBOARD = 'https://my.motherhash-dev.nhco.tech/dashboard'
