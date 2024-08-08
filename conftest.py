@@ -20,15 +20,28 @@ from helpers import fake_email, fake_random_password
 #     yield browser
 #     browser.quit()
 
+# @pytest.fixture(scope="function")
+# @allure.title('Инициализация драйвера Chrome')
+# def browser():
+#     options = Options()
+#     options.add_argument("--headless")
+#     options.add_argument('--window-size=1920,1080')
+#     service = Service(
+#         executable_path='/Users/macbook/Desktop/WebDriver/bin/chromedriver')
+#     browser = webdriver.Chrome(service=service, options=options)
+#     yield browser
+#     browser.quit()
+
+
 @pytest.fixture(scope="function")
 @allure.title('Инициализация драйвера Chrome')
 def browser():
     options = Options()
     options.add_argument("--headless")
     options.add_argument('--window-size=1920,1080')
-    service = Service(
-        executable_path='/Users/macbook/Desktop/WebDriver/bin/chromedriver')
-    browser = webdriver.Chrome(service=service, options=options)
+    # service = Service(
+    #     executable_path='/Users/macbook/Desktop/WebDriver/bin/chromedriver')
+    browser = webdriver.Chrome(options=options)
     yield browser
     browser.quit()
 
