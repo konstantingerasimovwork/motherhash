@@ -7,7 +7,7 @@ on:
           deployment_target: 
               description: Choose target
               required: true
-              default:
+              default: test_header
               type: choice 
               options:
                   - test_header
