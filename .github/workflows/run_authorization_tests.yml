@@ -10,8 +10,8 @@ on:
               default:
               type: choice 
               options:
-                  -test_header
-                  -test_reset_password
+                  - test_header
+                  - test_reset_password
 
 jobs:
   test:
