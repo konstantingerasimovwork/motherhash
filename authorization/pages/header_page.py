@@ -8,7 +8,6 @@ class HeaderPage(BasePage):
 
     @allure.step('Изменяем язык {chose_language}')
     def change_language(self, chose_language):
-        # self.wait_visible_element(language_button)
         self.wait_visible_element(hp.LANGUAGE_BUTTON)
         self.click_element(hp.LANGUAGE_BUTTON)
         self.wait_visible_element(hp.LANGUAGE_MENU)
@@ -16,18 +15,22 @@ class HeaderPage(BasePage):
     
     @allure.step('Ищем лого на странице авторизации и кликаем по нему')
     def find_logo_on_authorization_page_and_click(self, element):
+        self.wait_visible_element(element)
         self.click_element(element)
 
     @allure.step('Ищем пункт меню "Create contract" и кликаем по нему')
     def find_create_contact_in_menu_and_click(self, element):
+        self.wait_visible_element(element)
         self.click_element(element)
 
     @allure.step('Ищем пункт меню "Advantages" и кликаем по нему')
     def find_advantages_in_menu_and_click(self, element):
+        self.wait_visible_element(element)
         self.click_element(element)
 
     @allure.step('Ищем пункт меню "FAQ" и кликаем по нему')
     def find_faq_in_menu_and_click(self, element):
+        self.wait_visible_element(element)
         self.click_element(element)
     
     @allure.step('Находим лого на главной странице лендинга')

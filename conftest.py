@@ -24,8 +24,8 @@ from helpers import fake_email, fake_random_password
 @allure.title('Инициализация драйвера Chrome')
 def browser():
     options = Options()
+    options.add_argument("--headless")
     options.add_argument('--window-size=1920,1080')
-    # options.add_argument("--lang=ru")
     service = Service(
         executable_path='/Users/macbook/Desktop/WebDriver/bin/chromedriver')
     browser = webdriver.Chrome(service=service, options=options)
