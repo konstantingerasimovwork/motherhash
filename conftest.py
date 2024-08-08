@@ -38,12 +38,9 @@ def browser():
     options = Options()
     options.add_argument("--headless")
     options.add_argument('--window-size=1920,1080')
-    # service = Service(
-    #     executable_path='/Users/macbook/Desktop/WebDriver/bin/chromedriver')
     browser = webdriver.Chrome(options=options)
     yield browser
     browser.quit()
-
 
 @pytest.fixture(scope="function", params=['en', 'ru', 'pt'])
 @allure.title('Смена языка')
