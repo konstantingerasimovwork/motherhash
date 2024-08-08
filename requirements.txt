@@ -187,8 +187,6 @@ mdurl==0.1.2
 more-itertools==9.1.0
 mr-proper==0.0.7
 multidict==6.0.4
-# Editable install with no version control (my-dagster-project==0.0.0)
--e /Users/macbook/Desktop/Python/Work/my-dagster-project
 mypy-extensions==1.0.0
 natsort==8.3.1
 nest-asyncio==1.5.6
