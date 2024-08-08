@@ -1,60 +1,60 @@
-name: Authorization Automatad tests
-
-on: 
-  push
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-
-    steps: 
-        - name: Checkout repository
-          uses: actions/checkout@v4
-        - name: setup Python
-          uses: actions/setup-python@v5
-          with: 
-            python-version: "3.11"
-        - name: Install Chrome
-          run: sudo apt-get install google-chrome-stable
-        - name: install dependencies
-          run: pip install -r requirements.txt
-        - name: Run tests
-          run: pytest authorization/tests/test_header.py
-
-
-
 # name: Authorization Automatad tests
 
 # on: 
-#   workflow_dispatch:
-#     inputs:
-#       deployment_target: 
-#         description: Choose target
-#         required: true
-#         default: test_header  # значение по умолчанию
-#         type: choice 
-#         options:
-#           - test_header
-#           - test_reset_password
+#   push
 
 # jobs:
 #   test:
 #     runs-on: ubuntu-latest
 
 #     steps: 
-#       - name: Checkout repository
-#         uses: actions/checkout@v4
-#       - name: setup Python
-#         uses: actions/setup-python@v5
-#         with: 
-#           python-version: "3.11"
-#       - name: Install Chrome
-#         run: sudo apt-get install google-chrome-stable
-#       - name: install dependencies
-#         run: pip install -r requirements.txt
-#       - name: test_header
-#         if: "github.event.inputs.deployment_target == 'test_header'"
-#         run: pytest authorization/tests/test_header.py
-#       - name: test_reset_password
-#         if: "github.event.inputs.deployment_target == 'test_reset_password'"
-#         run: pytest authorization/tests/test_reset_password.py
+#         - name: Checkout repository
+#           uses: actions/checkout@v4
+#         - name: setup Python
+#           uses: actions/setup-python@v5
+#           with: 
+#             python-version: "3.11"
+#         - name: Install Chrome
+#           run: sudo apt-get install google-chrome-stable
+#         - name: install dependencies
+#           run: pip install -r requirements.txt
+#         - name: Run tests
+#           run: pytest authorization/tests/test_header.py
+
+
+
+name: Authorization Automatad tests
+
+on: 
+  workflow_dispatch:
+    inputs:
+      deployment_target: 
+        description: Choose target
+        required: true
+        default: test_header  # значение по умолчанию
+        type: choice 
+        options:
+          - test_header
+          - test_reset_password
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: setup Python
+        uses: actions/setup-python@v5
+        with: 
+          python-version: "3.11"
+      - name: Install Chrome
+        run: sudo apt-get install google-chrome-stable
+      - name: install dependencies
+        run: pip install -r requirements.txt
+      - name: test_header
+        if: "github.event.inputs.deployment_target == 'test_header'"
+        run: pytest authorization/tests/test_header.py
+      - name: test_reset_password
+        if: "github.event.inputs.deployment_target == 'test_reset_password'"
+        run: pytest authorization/tests/test_reset_password.py
