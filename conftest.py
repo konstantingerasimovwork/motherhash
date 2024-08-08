@@ -32,7 +32,6 @@ from helpers import fake_email, fake_random_password
 #     yield browser
 #     browser.quit()
 
-
 @pytest.fixture(scope="function")
 @allure.title('Инициализация драйвера Chrome')
 def browser():
