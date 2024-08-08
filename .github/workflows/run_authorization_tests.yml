@@ -29,8 +29,8 @@ jobs:
         - name: install dependencies
           run: pip install -r requirements.txt
         - name: test_header
-          if: "github.event.inputs.deplyment_target == 'test_header'"
+          if: "github.event.inputs.deployment_target == 'test_header'"
           run: pytest authorization/tests/test_header.py
         - name: test_reset_password
-          if: "github.event.inputs.deplyment_target == 'test_reset_password'"
+          if: "github.event.inputs.deployment_target == 'test_reset_password'"
           run: pytest authorization/tests/test_reset_password.py
