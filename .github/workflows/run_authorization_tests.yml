@@ -22,10 +22,10 @@ jobs:
           run: sudo apt-get install google-chrome-stable
         - name: install dependencies
           run: pip install -r requirements.txt
-        # - name: Run test_header
-        #   run: pytest authorization/tests/test_header.py
-        # - name: Run test_signin
-        #   run: pytest authorization/tests/test_signin.py
+        - name: Run test_header
+          run: pytest authorization/tests/test_header.py
+        - name: Run test_signin
+          run: pytest authorization/tests/test_signin.py
         - name: Run test_signin_password
           run: pytest authorization/tests/test_signin_password.py
         - name: Run test_reset_password
