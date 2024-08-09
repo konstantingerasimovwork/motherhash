@@ -11,7 +11,7 @@ class HeaderPage(BasePage):
         self.wait_visible_element(hp.LANGUAGE_BUTTON)
         self.click_element(hp.LANGUAGE_BUTTON)
         self.wait_visible_element(hp.LANGUAGE_MENU)
-        self.find_element(chose_language).click()
+        self.click_element(chose_language)
     
     @allure.step('Ищем лого на странице авторизации и кликаем по нему')
     def find_logo_on_authorization_page_and_click(self, element):
