@@ -11,11 +11,11 @@ class SignInPage(BasePage):
         self.click_element(signin.LANGUAGE_BUTTON)
         self.wait_visible_element(signin.LANGUAGE_MENU)
         if language == 'en':
-            self.find_element(signin.LANGUAGE_EN).click()
+            self.click_element(signin.LANGUAGE_EN)
         elif language == 'ru':
-            self.find_element(signin.LANGUAGE_RU).click()
+            self.click_element(signin.LANGUAGE_RU)
         elif language == 'pt':
-            self.find_element(signin.LANGUAGE_PT).click()
+            self.click_element(signin.LANGUAGE_PT)
 
     @allure.step('Находим поле email и ввести {email}')
     def find_email_field_and_type_text(self, email):

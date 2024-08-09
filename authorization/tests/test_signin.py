@@ -83,7 +83,7 @@ class TestSignInEmail():
         assert current_url == data.URL_SIGNUP and result, f'{current_url} не равен {data.URL_SIGNUP} или не найден заголовок'
 
     @allure.sub_suite('5. Негативные проверки: Пустое поле')
-    def test_empty_email_field_en(self, browser, language, expected_error_message):
+    def test_empty_email_field(self, browser, language):
         allure.dynamic.title(
             f'{language}  - Негативные проверки: Пустое поле')
         signin_page = SignInPage(browser)
