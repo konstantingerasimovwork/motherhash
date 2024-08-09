@@ -1,6 +1,7 @@
 name: Authorization Automatad tests
 
 on: 
+  push:
   schedule:
     - cron: '*/3 * * * *'
 
