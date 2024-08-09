@@ -1,8 +1,12 @@
 name: Authorization Automatad tests
 
 on: 
+  push:
+    branches:
+      - main
+      - develop
   schedule:
-    - cron: '*/10 * * * *'
+    - cron: "*/10 * * * *"
 
 jobs:
   test:
