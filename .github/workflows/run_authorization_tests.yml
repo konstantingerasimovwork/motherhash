@@ -2,7 +2,7 @@ name: Authorization Automatad tests
 
 on: 
   schedule:
-    - cron: '*/30 * * * *'
+    - cron: '*/3 * * * *'
 
 jobs:
   test:
