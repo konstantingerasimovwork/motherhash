@@ -25,7 +25,7 @@ jobs:
         - name: install dependencies
           run: pip install -r requirements.txt
         - name: Run test_header
-          run: pytest authorization/tests/test_header.py --alluredir=allure-results/test_header
+          run: pytest authorization/tests/test_header.py
           continue-on-error: true
         # - name: Run test_signin
         #   run: pytest authorization/tests/test_signin.py --alluredir=allure-results/test_signin
@@ -78,7 +78,7 @@ jobs:
           if: always()
           uses: peaceiris/actions-gh-pages@v4
           env:
-            PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            PERSONAL_TOKEN: ${{ secrets.MOTHERHASH_TOKEN }}
             PUBLISH_BRANCH: gh-pages
             PUBLISH_DIR: allure-history
 
