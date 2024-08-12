@@ -46,6 +46,9 @@ jobs:
     needs: test
     name: allure-reports
     steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+
         - name: Install Java
         - uses: actions/setup-java@v4
           with: 
