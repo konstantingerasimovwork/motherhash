@@ -60,7 +60,7 @@ jobs:
         - name: Get Allure history
           uses: actions/checkout@v4
           if: always()
-          # continue-on-error: true
+          continue-on-error: true
           with:
             ref: gh-pages
             path: gh-pages
@@ -79,7 +79,8 @@ jobs:
           uses: peaceiris/actions-gh-pages@v4
           with:
             # personal_token: ${{ secrets.MOTHERHASH_TOKEN }}
-            github_token: ${{ secrets.GITHUB_TOKEN }}
+            # github_token: ${{ secrets.GITHUB_TOKEN }}
+            github_token: ${{ secrets.MOTHERHASH_TOKEN }}
             publish_branch: gh-pages
             publish_dir: allure-history
 
