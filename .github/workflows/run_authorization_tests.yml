@@ -7,6 +7,8 @@ on:
   schedule:
     - cron: "45 12 * * *"
 
+permissions: read-all
+
 jobs:
   test:
     runs-on: ubuntu-latest
