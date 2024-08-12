@@ -26,7 +26,7 @@ jobs:
           run: pip install -r requirements.txt
         - name: Run test_header
           run: pytest authorization/tests/test_header.py
-          continue-on-error: true
+          # continue-on-error: true
         # - name: Run test_signin
         #   run: pytest authorization/tests/test_signin.py --alluredir=allure-results/test_signin
         #   continue-on-error: true
