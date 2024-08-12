@@ -24,7 +24,6 @@ jobs:
           run: pip install -r requirements.txt
         - name: Run test_header
           run: pytest authorization/tests/test_header.py --alluredir=allure-results/test_header
-          continue-on-error: true
 
 
   generate-report:
