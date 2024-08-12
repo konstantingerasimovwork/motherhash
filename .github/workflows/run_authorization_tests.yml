@@ -49,36 +49,36 @@ jobs:
         - name: Checkout repository
           uses: actions/checkout@v4
 
-        # - name: Install Java
-        # - uses: actions/setup-java@v4
-        #   with: 
-        #     distribution: 'zulu'
-        #     java-version: '21'
+        - name: Install Java
+          uses: actions/setup-java@v4
+          with: 
+            distribution: 'zulu'
+            java-version: '21'
         
-        # - name: Get Allure history
-        #   uses: actions/checkout@v4
-        #   if: always()
-        #   continue-on-error: true
-        #   with:
-        #     ref: gh-pages
-        #     path: gh-pages
+        - name: Get Allure history
+          uses: actions/checkout@v4
+          if: always()
+          continue-on-error: true
+          with:
+            ref: gh-pages
+            path: gh-pages
 
-        # - name: Build test report
-        #   uses: simple-elf/allure-report-action@v1.7
-        #   if: always()
-        #   with:
-        #     allure_results: build/allure-results
-        #     gh_pages: gh-pages
-        #     allure_history: allure-history
+        - name: Build test report
+          uses: simple-elf/allure-report-action@v1.7
+          if: always()
+          with:
+            allure_results: build/allure-results
+            gh_pages: gh-pages
+            allure_history: allure-history
 
 
-        # - name: Deploy report to Github Pages
-        #   if: always()
-        #   uses: peaceiris/actions-gh-pages@v4
-        #   env:
-        #     PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        #     PUBLISH_BRANCH: gh-pages
-        #     PUBLISH_DIR: allure-history
+        - name: Deploy report to Github Pages
+          if: always()
+          uses: peaceiris/actions-gh-pages@v4
+          env:
+            PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            PUBLISH_BRANCH: gh-pages
+            PUBLISH_DIR: allure-history
 
 
 
