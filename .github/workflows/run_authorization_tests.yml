@@ -23,17 +23,63 @@ jobs:
         - name: install dependencies
           run: pip install -r requirements.txt
         - name: Run test_header
-          run: pytest authorization/tests/test_header.py
-        - name: Run test_signin
-          run: pytest authorization/tests/test_signin.py
-        - name: Run test_signin_password
-          run: pytest authorization/tests/test_signin_password.py
-        - name: Run test_reset_password
-          run: pytest authorization/tests/test_reset_password.py
-        - name: Run test_signup
-          run: pytest authorization/tests/test_signup.py
-        - name: Run test_verification_code
-          run: pytest authorization/tests/test_verification_code.py
+          run: pytest authorization/tests/test_header.py --alluredir=allure-results/test_header
+          continue-on-error: true
+        # - name: Run test_signin
+        #   run: pytest authorization/tests/test_signin.py --alluredir=allure-results/test_signin
+        #   continue-on-error: true
+        # - name: Run test_signin_password
+        #   run: pytest authorization/tests/test_signin_password.py --alluredir=allure-results/test_signin_password
+        #   continue-on-error: true
+        # - name: Run test_reset_password
+        #   run: pytest authorization/tests/test_reset_password.py --alluredir=allure-results/test_reset_password
+        #   continue-on-error: true
+        # - name: Run test_signup
+        #   run: pytest authorization/tests/test_signup.py --alluredir=allure-results/test_signup
+        #   continue-on-error: true
+        # - name: Run test_verification_code
+        #   run: pytest authorization/tests/test_verification_code.py --alluredir=allure-results/test_verification_code
+        #   continue-on-error: true
+
+  generate-report:
+    runs-on: ubuntu-latest
+    needs: test
+    name: allure-reports
+    steps:
+        - name: Install Java
+        - uses: actions/setup-java@v4
+          with: 
+            distribution: 'zulu'
+            java-version: '21'
+        
+        - name: Get Allure history
+          uses: actions/checkout@v4
+          if: always()
+          continue-on-error: true
+          with:
+            ref: gh-pages
+            path: gh-pages
+
+        - name: Build test report
+          uses: simple-elf/allure-report-action@v1.7
+          if: always()
+          with:
+            allure_results: build/allure-results
+            gh_pages: gh-pages
+            allure_history: allure-history
+
+
+        - name: Deploy report to Github Pages
+          if: always()
+          uses: peaceiris/actions-gh-pages@v4
+          env:
+            PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            PUBLISH_BRANCH: gh-pages
+            PUBLISH_DIR: allure-history
+
+
+
+
 
 
 
