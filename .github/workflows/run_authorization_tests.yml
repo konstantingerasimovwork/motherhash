@@ -52,8 +52,8 @@ jobs:
   
         - name: Merge Allure Results
           run: |
-            mkdir -p allure-results
-            cp -r allure-results/* allure-results/ || true
+            mkdir -p merged-allure-results
+            find allure-results -type f -name "*.json" -exec cp {} merged-allure-results/ \;
 
 
 
@@ -77,7 +77,7 @@ jobs:
           if: always()
           continue-on-error: true
           with:
-            allure_results: allure-results
+            allure_results: merged-allure-results
             gh_pages: gh-pages
             allure_history: allure-history
 
