@@ -50,15 +50,15 @@ jobs:
         # - name: Run test_verification_code
         #   run: pytest authorization/tests/test_verification_code.py --alluredir=allure-results/test_verification_code
   
-        - name: Merge Allure Results
-          run: |
-            mkdir -p allure-results
-            cp -r allure-results/* merged-allure-results/ || true
-
         # - name: Merge Allure Results
         #   run: |
-        #     mkdir -p merged-allure-results
-        #     find allure-results -type f -name "*.json" -exec cp {} merged-allure-results/ \;
+        #     mkdir -p allure-results
+        #     cp -r allure-results/* merged-allure-results/ || true
+
+        - name: Merge Allure Results
+          run: |
+            mkdir -p merged-allure-results
+            find allure-results -type f -name "*.json" -exec cp {} merged-allure-results/ \;
 
 
 
