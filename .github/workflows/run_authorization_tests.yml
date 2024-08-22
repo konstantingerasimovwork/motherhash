@@ -39,15 +39,19 @@ jobs:
           run: pytest authorization/tests/test_signin.py --alluredir=allure-results/signin
   
         - name: Run test_signin_password
+          if: always()
           run: pytest authorization/tests/test_signin_password.py --alluredir=allure-results/test_signin_password
   
         - name: Run test_reset_password
+          if: always()
           run: pytest authorization/tests/test_reset_password.py --alluredir=allure-results/test_reset_password
   
         - name: Run test_signup
+          if: always()
           run: pytest authorization/tests/test_signup.py --alluredir=allure-results/test_signup
   
         - name: Run test_verification_code
+          if: always()
           run: pytest authorization/tests/test_verification_code.py --alluredir=allure-results/test_verification_code
 
         - name: Merge Allure Results
@@ -56,6 +60,7 @@ jobs:
             find allure-results -type f -name "*.json" -exec cp {} merged-allure-results/ \;
 
         - name: Install Java
+          if: always()
           uses: actions/setup-java@v4
           with: 
             distribution: 'zulu'
@@ -71,6 +76,7 @@ jobs:
             path: gh-pages
         
         - name: Remove old report directories
+          if: always()
           run: |
             cd gh-pages
             ls -d */ | grep -v "allure-history" | sort -r | tail -n +4 | xargs rm -rf
