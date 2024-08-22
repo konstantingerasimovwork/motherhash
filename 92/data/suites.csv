@@ -1,4 +1,0 @@
-"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"passed","Thu Aug 22 10:56:31 GMT 2024","Thu Aug 22 10:56:35 GMT 2024","4205","authorization.tests","Header","1. Проверка перехода по логотипу на главную страницу лендинга","","","EN  - Проверка перехода по логотипу на главную страницу лендинга",""
-"passed","Thu Aug 22 10:56:39 GMT 2024","Thu Aug 22 10:56:43 GMT 2024","3844","authorization.tests","Header","1. Проверка перехода по логотипу на главную страницу лендинга","","","PT  - Проверка перехода по логотипу на главную страницу лендинга",""
-"passed","Thu Aug 22 10:56:35 GMT 2024","Thu Aug 22 10:56:39 GMT 2024","3931","authorization.tests","Header","1. Проверка перехода по логотипу на главную страницу лендинга","","","RU  - Проверка перехода по логотипу на главную страницу лендинга",""
