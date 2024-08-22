@@ -32,7 +32,27 @@ jobs:
               
         - name: Run test_header
           if: always()
-          run: pytest authorization/tests/test_header.py::TestHeader::test_header_logo --alluredir=allure-results
+          run: pytest authorization/tests/test_header.py::TestHeader::test_header_logo --alluredir=allure-results/test_header
+        
+        # - name: Run test_signin
+        #   run: pytest authorization/tests/test_signin.py --alluredir=allure-results/test_signin
+  
+        # - name: Run test_signin_password
+        #   run: pytest authorization/tests/test_signin_password.py --alluredir=allure-results/test_signin_password
+  
+        # - name: Run test_reset_password
+        #   run: pytest authorization/tests/test_reset_password.py --alluredir=allure-results/test_reset_password
+  
+        # - name: Run test_signup
+        #   run: pytest authorization/tests/test_signup.py --alluredir=allure-results/test_signup
+  
+        # - name: Run test_verification_code
+        #   run: pytest authorization/tests/test_verification_code.py --alluredir=allure-results/test_verification_code
+  
+
+
+
+
         
         - name: Install Java
           uses: actions/setup-java@v4
@@ -68,22 +88,7 @@ jobs:
             publish_branch: gh-pages
             publish_dir: allure-history
         
-          # continue-on-error: true
-        # - name: Run test_signin
-        #   run: pytest authorization/tests/test_signin.py --alluredir=allure-results/test_signin
-        #   continue-on-error: true
-        # - name: Run test_signin_password
-        #   run: pytest authorization/tests/test_signin_password.py --alluredir=allure-results/test_signin_password
-        #   continue-on-error: true
-        # - name: Run test_reset_password
-        #   run: pytest authorization/tests/test_reset_password.py --alluredir=allure-results/test_reset_password
-        #   continue-on-error: true
-        # - name: Run test_signup
-        #   run: pytest authorization/tests/test_signup.py --alluredir=allure-results/test_signup
-        #   continue-on-error: true
-        # - name: Run test_verification_code
-        #   run: pytest authorization/tests/test_verification_code.py --alluredir=allure-results/test_verification_code
-        #   continue-on-error: true
+
 
   # generate-report:
   #   runs-on: ubuntu-latest
