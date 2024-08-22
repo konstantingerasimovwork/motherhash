@@ -34,39 +34,39 @@ jobs:
           if: always()
           run: pytest authorization/tests/test_header.py::TestHeader::test_header_logo --alluredir=allure-results
         
-          - name: Install Java
-            uses: actions/setup-java@v4
-            with: 
-              distribution: 'zulu'
-              java-version: '21'
-          
-          - name: Get Allure history
-            uses: actions/checkout@v4
-            if: always()
-            continue-on-error: true
-            with:
-              ref: gh-pages
-              path: gh-pages
+        - name: Install Java
+          uses: actions/setup-java@v4
+          with: 
+            distribution: 'zulu'
+            java-version: '21'
+        
+        - name: Get Allure history
+          uses: actions/checkout@v4
+          if: always()
+          continue-on-error: true
+          with:
+            ref: gh-pages
+            path: gh-pages
 
-          - name: Build test report
-            uses: simple-elf/allure-report-action@v1.7
-            if: always()
-            continue-on-error: true
-            with:
-              allure_results: allure-results
-              gh_pages: gh-pages
-              allure_history: allure-history
+        - name: Build test report
+          uses: simple-elf/allure-report-action@v1.7
+          if: always()
+          continue-on-error: true
+          with:
+            allure_results: allure-results
+            gh_pages: gh-pages
+            allure_history: allure-history
 
 
-          - name: Deploy report to Github Pages
-            if: always()
-            uses: peaceiris/actions-gh-pages@v4
-            with:
-              # personal_token: ${{ secrets.MOTHERHASH_TOKEN }}
-              # github_token: ${{ secrets.GITHUB_TOKEN }}
-              github_token: ${{ secrets.MOTHERHASH_TOKEN }}
-              publish_branch: gh-pages
-              publish_dir: allure-history
+        - name: Deploy report to Github Pages
+          if: always()
+          uses: peaceiris/actions-gh-pages@v4
+          with:
+            # personal_token: ${{ secrets.MOTHERHASH_TOKEN }}
+            # github_token: ${{ secrets.GITHUB_TOKEN }}
+            github_token: ${{ secrets.MOTHERHASH_TOKEN }}
+            publish_branch: gh-pages
+            publish_dir: allure-history
         
           # continue-on-error: true
         # - name: Run test_signin
