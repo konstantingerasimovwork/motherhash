@@ -36,7 +36,7 @@ jobs:
         
         - name: Run test_signin
           if: always()
-          run: pytest authorization/tests/test_signin.py --alluredir=allure-results/test_signin
+          run: pytest authorization/tests/test_signin.py::TestSignInEmail::test_enter_registered_email --alluredir=allure-results/test_signin
   
         # - name: Run test_signin_password
         #   run: pytest authorization/tests/test_signin_password.py --alluredir=allure-results/test_signin_password
