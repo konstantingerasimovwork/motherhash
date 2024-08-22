@@ -34,8 +34,9 @@ jobs:
           if: always()
           run: pytest authorization/tests/test_header.py::TestHeader::test_header_logo --alluredir=allure-results/test_header
         
-        # - name: Run test_signin
-        #   run: pytest authorization/tests/test_signin.py --alluredir=allure-results/test_signin
+        - name: Run test_signin
+          if: always()
+          run: pytest authorization/tests/test_signin.py --alluredir=allure-results/test_signin
   
         # - name: Run test_signin_password
         #   run: pytest authorization/tests/test_signin_password.py --alluredir=allure-results/test_signin_password
