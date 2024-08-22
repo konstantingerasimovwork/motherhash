@@ -31,8 +31,6 @@ jobs:
           run: pytest authorization/tests/test_header.py::TestHeader::test_header_logo --alluredir=allure-results
         - name: List allure-results directory
           run: ls -la allure-results
-        - name: Check installed packages
-          run: pip list
         
         
         
