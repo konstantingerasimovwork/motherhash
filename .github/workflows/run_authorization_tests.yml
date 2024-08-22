@@ -75,6 +75,7 @@ jobs:
           continue-on-error: true
           with:
             ref: gh-pages
+            fetch-depth: 0
             path: gh-pages
         
         - name: Remove old report directories
@@ -82,13 +83,13 @@ jobs:
             cd gh-pages
             ls -d */ | grep -v "allure-history" | sort -r | tail -n +4 | xargs rm -rf
           
-        - name: Push changes to gh-pages
-          run: |
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add .
-            git commit -m "Cleanup old reports, keeping only the last 3 and excluding allure-history"
-            git push origin gh-pages
+        # - name: Push changes to gh-pages
+        #   run: |
+        #     git config user.name "github-actions[bot]"
+        #     git config user.email "github-actions[bot]@users.noreply.github.com"
+        #     git add .
+        #     git commit -m "Cleanup old reports, keeping only the last 3 and excluding allure-history"
+        #     git push origin gh-pages
 
         - name: Build test report
           uses: simple-elf/allure-report-action@v1.7
