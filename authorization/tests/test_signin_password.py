@@ -51,8 +51,8 @@ class TestSignInPassword():
         password = SignInPasswordPage(browser)
         password.find_password_field_and_type_text(data.EXISTING_PASSWORD)
         password.click_enter_button(language)
-        password.wait_url_to_be(data.URL_LK_DASHBOARD)
-        current_url = password.get_current_url()
+        password.wait_lk_url_to_be(data.URL_LK_DASHBOARD)
+        current_url = password.get_lk_page_url()
         assert current_url == data.URL_LK_DASHBOARD, f'Актуальный адрес страницы ЛК {current_url} не равен ожидаемому {data.URL_LK_DASHBOARD}'
 
     @allure.sub_suite('6. Проверка ввода пароля, отличного от указанного при успешной регистрации в поле ввода')
