@@ -1,9 +1,10 @@
-name: Authorization Automatad tests
+name: Authorization Automated tests
 
 on: 
   push:
     branches:
       - develop
+      - main
   schedule:
     - cron: "45 12 * * *"
 
