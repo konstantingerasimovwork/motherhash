@@ -70,3 +70,6 @@ class SignInPasswordPage(BasePage):
             return self.find_element(signin_password.ENTER_BUTTON_RU)
         elif language == 'pt':
             return self.find_element(signin_password.ENTER_BUTTON_PT)
+
+    def wait_lk_url_to_be(self, url):
+        return self.wait_url_to_be(url)
