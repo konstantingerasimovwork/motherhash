@@ -133,6 +133,9 @@ class SignUpPasswordPage(BasePage):
         elif language == 'pt':
             self.click_element(signup_password.CONTINUE_BUTTON_PT)
 
-    @allure.step('Ожидаем смены ссылки {url}')
+    @allure.step('Ожидаем смены ссылки verification_code {url}')
     def wait_verification_code_url_to_be(self, url):
+        self.wait_url_to_be(url)
+
+    def wait_signup_url_to_be(self, url):
         self.wait_url_to_be(url)
