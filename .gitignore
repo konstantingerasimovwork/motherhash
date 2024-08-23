@@ -166,3 +166,6 @@ cython_debug/
 # Allure
 allure-reports
 allure-results
+
+#vs code
+.vscode

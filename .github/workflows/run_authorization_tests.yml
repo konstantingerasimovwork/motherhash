@@ -5,7 +5,8 @@ on:
     branches:
       - develop
   schedule:
-    - cron: "45 12 * * *"
+    - cron: "*/10 * * * *"
+
 
 jobs:
   test:
@@ -14,61 +15,89 @@ jobs:
     steps: 
         - name: Checkout repository
           uses: actions/checkout@v4
+
         - name: setup Python
           uses: actions/setup-python@v5
           with: 
             python-version: "3.11"
+
         - name: Install Chrome
           run: sudo apt-get install google-chrome-stable
+
         - name: install dependencies
-          run: pip install -r requirements.txt
+          run: |
+              python -m pip install --upgrade pip
+              pip install -r requirements.txt
+              pip install allure-pytest
+              
         - name: Run test_header
-          run: pytest authorization/tests/test_header.py
+          if: always()
+          run: pytest authorization/tests/test_header.py --alluredir=allure-results/header
+        
         - name: Run test_signin
-          run: pytest authorization/tests/test_signin.py
+          if: always()
+          run: pytest authorization/tests/test_signin.py --alluredir=allure-results/signin
+  
         - name: Run test_signin_password
-          run: pytest authorization/tests/test_signin_password.py
+          if: always()
+          run: pytest authorization/tests/test_signin_password.py --alluredir=allure-results/test_signin_password
+  
         - name: Run test_reset_password
-          run: pytest authorization/tests/test_reset_password.py
+          if: always()
+          run: pytest authorization/tests/test_reset_password.py --alluredir=allure-results/test_reset_password
+  
         - name: Run test_signup
-          run: pytest authorization/tests/test_signup.py
+          if: always()
+          run: pytest authorization/tests/test_signup.py --alluredir=allure-results/test_signup
+  
         - name: Run test_verification_code
-          run: pytest authorization/tests/test_verification_code.py
+          if: always()
+          run: pytest authorization/tests/test_verification_code.py --alluredir=allure-results/test_verification_code
+
+        - name: Merge Allure Results
+          run: |
+            mkdir -p merged-allure-results
+            find allure-results -type f -name "*.json" -exec cp {} merged-allure-results/ \;
+
+        - name: Install Java
+          if: always()
+          uses: actions/setup-java@v4
+          with: 
+            distribution: 'zulu'
+            java-version: '21'
+        
+        - name: Get Allure history
+          uses: actions/checkout@v4
+          if: always()
+          continue-on-error: true
+          with:
+            ref: gh-pages
+            fetch-depth: 0
+            path: gh-pages
+        
+        - name: Remove old report directories
+          if: always()
+          run: |
+            cd gh-pages
+            ls -d */ | grep -v "allure-history" | sort -r | tail -n +4 | xargs rm -rf
+
+        - name: Build test report
+          uses: simple-elf/allure-report-action@v1.7
+          if: always()
+          continue-on-error: true
+          with:
+            allure_results: merged-allure-results
+            gh_pages: gh-pages
+            allure_history: allure-history
 
 
+        - name: Deploy report to Github Pages
+          if: always()
+          uses: peaceiris/actions-gh-pages@v4
+          with:
+            github_token: ${{ secrets.MOTHERHASH_TOKEN }}
+            publish_branch: gh-pages
+            publish_dir: allure-history
 
-# name: Authorization Automatad tests
-#
-# on: 
-#   workflow_dispatch:
-#     inputs:
-#       deployment_target: 
-#         description: Choose target
-#         required: true
-#         default: test_header  # значение по умолчанию
-#         type: choice 
-#         options:
-#           - test_header
-#           - test_reset_password
 
-# jobs:
-#   test:
-#     runs-on: ubuntu-latest
-
-#     steps: 
-#       - name: Checkout repository
-#         uses: actions/checkout@v4
-#       - name: setup Python
-#         uses: actions/setup-python@v5
-#         with: 
-#           python-version: "3.11"
-#       - name: Install Chrome
-#         run: sudo apt-get install google-chrome-stable
-#       - name: install dependencies
-#         run: pip install -r requirements.txt
-#       - name: test_header
-#         if: "github.event.inputs.deployment_target == 'test_header'"
-#         run: pytest authorization/tests/test_header.py
-#       - name: test_reset_password
-#         if: "github.event.inputs.deployment_target == 'test_reset_password'"
-#         run: pytest authorization/tests/test_reset_password.py
+        
