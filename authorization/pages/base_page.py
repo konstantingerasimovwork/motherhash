@@ -23,6 +23,10 @@ class BasePage():
 
     def wait_visible_element(self, locator):
         WebDriverWait(self.browser, 20).until(expected_conditions.visibility_of_element_located(locator))
+    
+    def wait_visible_element_by_time(self, locator, time):
+        WebDriverWait(self.browser, time).until(
+            expected_conditions.visibility_of_element_located(locator))
 
     # def wait_clickable_element(self, locator):
     #     WebDriverWait(self.browser, 20).until(
