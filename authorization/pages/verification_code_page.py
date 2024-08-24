@@ -72,3 +72,63 @@ class VerificationCodePage(BasePage):
             self.wait_visible_element(verification_code.CHANGE_EMAIL_LINK_PT)
             self.click_element(verification_code.CHANGE_EMAIL_LINK_PT)
         return self.get_current_url()
+
+    @allure.step('Находим текст повторной отправки кода и таймера 60 сек')
+    def find_resend_text_and_timer_60_sec(self, language):
+        if language == 'en':
+            self.wait_visible_element_by_time(
+                verification_code.TIME_60_SEC_RESEND_CODE_EN, 10)
+            return self.find_element(verification_code.TIME_60_SEC_RESEND_CODE_EN)
+        if language == 'ru':
+            self.wait_visible_element_by_time(
+                verification_code.TIME_60_SEC_RESEND_CODE_RU, 10)
+            return self.find_element(verification_code.TIME_60_SEC_RESEND_CODE_RU)
+        if language == 'pt':
+            self.wait_visible_element_by_time(
+                verification_code.TIME_60_SEC_RESEND_CODE_PT, 10)
+            return self.find_element(verification_code.TIME_60_SEC_RESEND_CODE_PT)
+    
+    @allure.step('Находим текст повторной отправки кода и таймера 0 сек')
+    def find_resend_text_and_timer_01_sec(self, language):
+        if language == 'en':
+            self.wait_visible_element_by_time(
+                verification_code.TIME_01_SEC_RESEND_CODE_EN, 70)
+            return self.find_element(verification_code.TIME_01_SEC_RESEND_CODE_EN)
+        if language == 'ru':
+            self.wait_visible_element_by_time(
+                verification_code.TIME_01_SEC_RESEND_CODE_RU, 70)
+            return self.find_element(verification_code.TIME_01_SEC_RESEND_CODE_RU)
+        if language == 'pt':
+            self.wait_visible_element_by_time(
+                verification_code.TIME_01_SEC_RESEND_CODE_PT, 70)
+            return self.find_element(verification_code.TIME_01_SEC_RESEND_CODE_PT)
+        
+    @allure.step('Находим текст вопроса "Не получили письмо?"')
+    def find_receive_question(self, language):
+        if language == 'en':
+            self.wait_visible_element_by_time(
+                verification_code.RESEND_CODE_TEXT_EN, 70)
+            return self.find_element(verification_code.RESEND_CODE_TEXT_EN)
+        if language == 'ru':
+            self.wait_visible_element_by_time(
+                verification_code.RESEND_CODE_TEXT_RU, 70)
+            return self.find_element(verification_code.RESEND_CODE_TEXT_RU)
+        if language == 'pt':
+            self.wait_visible_element_by_time(
+                verification_code.RESEND_CODE_TEXT_PT, 70)
+            return self.find_element(verification_code.RESEND_CODE_TEXT_PT)
+
+    @allure.step('Находим ссылку "Нажмите, чтобы отправить повторно"')
+    def find_receive_link(self, language):
+        if language == 'en':
+            self.wait_visible_element(
+                verification_code.RESEND_CODE_LINK_EN)
+            return self.find_element(verification_code.RESEND_CODE_LINK_EN)
+        if language == 'ru':
+            self.wait_visible_element(
+                verification_code.RESEND_CODE_LINK_RU)
+            return self.find_element(verification_code.RESEND_CODE_LINK_RU)
+        if language == 'pt':
+            self.wait_visible_element(
+                verification_code.RESEND_CODE_LINK_PT)
+            return self.find_element(verification_code.RESEND_CODE_LINK_PT)

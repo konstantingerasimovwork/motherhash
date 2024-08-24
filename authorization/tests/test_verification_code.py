@@ -55,15 +55,32 @@ class TestVerificationCodePassword():
             language)
         assert current_url == data.URL_SIGNIN, f'Актуальный url {current_url} не равен ожидаемому {data.URL_SIGNIN}'
 
-    # @allure.sub_suite("5. Наличие текста Didn't receive an email? / Не получили письмо? / Não recebeu o email? под полями для ввода кода подтверждения")
-    # def test_enter_correct_verification_code(self, browser, create_login_and_password):
-    #     allure.dynamic.title(
-    #         f"{create_login_and_password} - Наличие текста Didn't receive an email? / Не получили письмо? / Não recebeu o email? под полями для ввода кода подтверждения")
-    #     language = create_login_and_password
-    #     password = VerificationCodePage(browser)
-    #     current_url = password.click_change_email_link_and_get_current_url(
-    #         language)
-    #     assert current_url == data.URL_SIGNIN, f'Актуальный url {current_url} не равен ожидаемому {data.URL_SIGNIN}'
+    @allure.sub_suite("5. Наличие на странице текста Resend Code / Повторная отправка кода / Reenviar código em и таймера 60 секунд")
+    def test_timer_60_sec(self, browser, create_login_and_password):
+        allure.dynamic.title(
+            f"{create_login_and_password} - Наличие на странице текста Resend Code / Повторная отправка кода / Reenviar código em и таймера 60 секунд")
+        language = create_login_and_password
+        password = VerificationCodePage(browser)
+        result_60_sec = password.find_resend_text_and_timer_60_sec(language)
+        result_01_sec = password.find_resend_text_and_timer_01_sec(language)
+        assert result_60_sec and result_01_sec, f'Таймер 60 сек не найден {result_60_sec} или таймер 1 сек {result_01_sec} не найден'
+
+    @allure.sub_suite("6. По истечении 60 секунд появляется текст Didn't receive an email? / Не получили письмо? / Não recebeu o email?  \
+                      и ссылки с текстом Click to Resend / Нажмите, чтобы отправить повторно / Clique para reenviar под полями для ввода кода подтверждения")
+    def test_find_resend_link(self, browser, create_login_and_password):
+        allure.dynamic.title(
+            f"{create_login_and_password} - По истечении 60 секунд появляется текст Didn't receive an email? / Не получили письмо? / Não recebeu o email?  \
+                      и ссылки с текстом Click to Resend / Нажмите, чтобы отправить повторно / Clique para reenviar под полями для ввода кода подтверждения")
+        language = create_login_and_password
+        password = VerificationCodePage(browser)
+        result_resend_quastion = password.find_receive_question(language)
+        result_resend_link = password.find_receive_link(language)
+        assert result_resend_quastion and result_resend_link, f'Текст вопроса не найден {result_resend_quastion} или ссылка не найдена {result_resend_link}'
+
+
+
+
+        
 
 
 
