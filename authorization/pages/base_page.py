@@ -31,14 +31,20 @@ class BasePage():
     # def wait_clickable_element(self, locator):
     #     WebDriverWait(self.browser, 20).until(
     #         expected_conditions.element_to_be_clickable(locator))
+
+    def wait_presence_of_all_elements_located(self, locator):
+        WebDriverWait(self.browser, 10).until(expected_conditions.presence_of_all_elements_located(locator))
     
     def visibility_of_element_located(self, locator):
         return expected_conditions.visibility_of_element_located(locator)
 
+    def invisibility_of_element_located(self, locator):
+        return expected_conditions.invisibility_of_element_located(locator)
+    
     def text_to_be_present_in_element_attribute(self, locator, attribute, text):
         WebDriverWait(self.browser, 20).until(
             expected_conditions.text_to_be_present_in_element_attribute(locator, attribute, text))
-        
+    
     def get_title(self):
         return self.browser.title
 

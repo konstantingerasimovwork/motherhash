@@ -1,3 +1,4 @@
+import time
 import allure
 from authorization.pages.base_page import BasePage
 from authorization.locators.verification_code_page_locators import VerificationCodePageLocators as verification_code
@@ -104,7 +105,7 @@ class VerificationCodePage(BasePage):
             return self.find_element(verification_code.TIME_01_SEC_RESEND_CODE_PT)
         
     @allure.step('Находим текст вопроса "Не получили письмо?"')
-    def find_receive_question(self, language):
+    def find_resend_question(self, language):
         if language == 'en':
             self.wait_visible_element_by_time(
                 verification_code.RESEND_CODE_TEXT_EN, 70)
@@ -119,7 +120,7 @@ class VerificationCodePage(BasePage):
             return self.find_element(verification_code.RESEND_CODE_TEXT_PT)
 
     @allure.step('Находим ссылку "Нажмите, чтобы отправить повторно"')
-    def find_receive_link(self, language):
+    def find_resend_link(self, language):
         if language == 'en':
             self.wait_visible_element(
                 verification_code.RESEND_CODE_LINK_EN)
@@ -132,3 +133,130 @@ class VerificationCodePage(BasePage):
             self.wait_visible_element(
                 verification_code.RESEND_CODE_LINK_PT)
             return self.find_element(verification_code.RESEND_CODE_LINK_PT)
+
+    @allure.step('Ждём 60 секунд до появления ссылки отправки кода повторно')
+    def wait_resend_link(self, language):
+        if language == 'en':
+            self.wait_visible_element_by_time(
+                verification_code.TIME_01_SEC_RESEND_CODE_EN, 70)
+            self.wait_visible_element(
+                verification_code.RESEND_CODE_LINK_EN)
+        if language == 'ru':
+            self.wait_visible_element_by_time(
+                verification_code.TIME_01_SEC_RESEND_CODE_RU, 70)
+            self.wait_visible_element(
+                verification_code.RESEND_CODE_LINK_RU)
+        if language == 'pt':
+            self.wait_visible_element_by_time(
+                verification_code.TIME_01_SEC_RESEND_CODE_PT, 70)
+            self.wait_visible_element(
+                verification_code.RESEND_CODE_LINK_PT)
+    
+    @allure.step('Нажимаем на ссылку повторной отправки кода и находим таймер 60 секунд')
+    def click_resend_link_and_find_60_sec_timer(self, language):
+        if language == 'en':
+            self.wait_visible_element(
+                verification_code.RESEND_CODE_LINK_EN)
+            self.click_element(verification_code.RESEND_CODE_LINK_EN)
+            self.wait_visible_element(
+                verification_code.TIME_60_SEC_RESEND_CODE_EN)
+            return self.find_element(verification_code.TIME_60_SEC_RESEND_CODE_EN)
+        if language == 'ru':
+            self.wait_visible_element(
+                verification_code.RESEND_CODE_LINK_RU)
+            self.click_element(verification_code.RESEND_CODE_LINK_RU)
+            self.wait_visible_element(
+                verification_code.TIME_60_SEC_RESEND_CODE_RU)
+            return self.find_element(verification_code.TIME_60_SEC_RESEND_CODE_RU)
+        if language == 'pt':
+            self.wait_visible_element(
+                verification_code.RESEND_CODE_LINK_PT)
+            self.click_element(verification_code.RESEND_CODE_LINK_PT)
+            self.wait_visible_element(
+                verification_code.TIME_60_SEC_RESEND_CODE_PT)
+            return self.find_element(verification_code.TIME_60_SEC_RESEND_CODE_PT)
+
+    @allure.step('Нажимаем на ссылку повторной отправки кода и находим таймер 60 секунд')
+    def type_verification_code(self, number_of_field, code):
+        self.wait_presence_of_all_elements_located(
+            verification_code.VERIFICATION_CODE_FIELDS_TAG)
+        verification_code_fields = self.find_elements(
+            verification_code.VERIFICATION_CODE_FIELDS)
+        code_list = list(code)
+        for field, symbol in zip(verification_code_fields[:number_of_field], code_list):
+            field.send_keys(symbol)
+    
+    @allure.step('Находим кнопку Проверить')
+    def find_verify_button(self, language):
+        if language == 'en':
+            self.wait_visible_element(
+                verification_code.VERIFY_BUTTON_EN)
+            return self.find_element(verification_code.VERIFY_BUTTON_EN)
+        if language == 'ru':
+            self.wait_visible_element(
+                verification_code.VERIFY_BUTTON_RU)
+            return self.find_element(verification_code.VERIFY_BUTTON_RU)
+        if language == 'pt':
+            self.wait_visible_element(
+                verification_code.VERIFY_BUTTON_PT)
+            return self.find_element(verification_code.VERIFY_BUTTON_PT)
+    
+    @allure.step('Проверяем, что кнопки Проверить нет на странице')
+    def check_verify_button(self, language):
+        if language == 'en':
+            return self.invisibility_of_element_located(
+                verification_code.VERIFY_BUTTON_EN)
+        if language == 'ru':
+            return self.invisibility_of_element_located(
+                verification_code.VERIFY_BUTTON_RU)
+        if language == 'pt':
+            return self.invisibility_of_element_located(
+                verification_code.VERIFY_BUTTON_PT)
+
+    @allure.step('Кликаем по кнопке Проверить')
+    def click_verify_button(self, language):
+        if language == 'en':
+            self.wait_visible_element(
+                verification_code.VERIFY_BUTTON_EN)
+            self.click_element(
+                verification_code.VERIFY_BUTTON_EN)
+        if language == 'ru':
+            self.wait_visible_element(
+                verification_code.VERIFY_BUTTON_RU)
+            self.click_element(
+                verification_code.VERIFY_BUTTON_RU)
+        if language == 'pt':
+            self.wait_visible_element(
+                verification_code.VERIFY_BUTTON_PT)
+            self.click_element(
+                verification_code.VERIFY_BUTTON_PT)
+
+    @allure.step('Находим и получаем текст ошибки')
+    def find_and_get_error_message(self, language):
+        if language == 'en':
+            self.wait_visible_element(verification_code.ERROR_MESSAGE_EN)
+            return self.find_element(verification_code.ERROR_MESSAGE_EN)
+        if language == 'ru':
+            self.wait_visible_element(verification_code.ERROR_MESSAGE_RU)
+            return self.find_element(verification_code.ERROR_MESSAGE_RU)
+        if language == 'pt':
+            self.wait_visible_element(verification_code.ERROR_MESSAGE_PT)
+            return self.find_element(verification_code.ERROR_MESSAGE_PT)
+    
+    def wait_lk_url_to_be(self, url):
+        return self.wait_url_to_be(url)
+    
+    @allure.step('Проверяем наличие заголовка главной страницы ЛК "Обзорная панель"')
+    def get_title_dashboard_overview_page(self, language):
+        if language == 'en':
+            self.wait_visible_element(
+                verification_code.DASHBOARD_OVERVIEW_TITLE_EN)
+            return self.find_element(verification_code.DASHBOARD_OVERVIEW_TITLE_EN)
+        elif language == 'ru':
+            self.wait_visible_element(
+                verification_code.DASHBOARD_OVERVIEW_TITLE_RU)
+            return self.find_element(verification_code.DASHBOARD_OVERVIEW_TITLE_RU)
+        elif language == 'pt':
+            self.wait_visible_element(
+                verification_code.DASHBOARD_OVERVIEW_TITLE_PT)
+            return self.get_text_element(verification_code.DASHBOARD_OVERVIEW_TITLE_PT)

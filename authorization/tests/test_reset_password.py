@@ -213,4 +213,4 @@ class TestResetPassword():
         password.find_repeat_password_field_and_type_text(correct_password)
         password.click_reset_password_button(language)
         password.wait_url_to_be(data.URL_VERIFICATION_CODE)
-        assert password.find_title_verification_code_page(language), f'{language} - Заголовок страницы Verification Code не найдет'
+        assert password.find_title_verification_code_page(language), f'{language} - Заголовок страницы Verification Code не найден'

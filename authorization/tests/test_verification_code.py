@@ -1,3 +1,4 @@
+import time
 import allure
 import pytest
 import data
@@ -73,50 +74,64 @@ class TestVerificationCodePassword():
                       и ссылки с текстом Click to Resend / Нажмите, чтобы отправить повторно / Clique para reenviar под полями для ввода кода подтверждения")
         language = create_login_and_password
         password = VerificationCodePage(browser)
-        result_resend_quastion = password.find_receive_question(language)
-        result_resend_link = password.find_receive_link(language)
+        result_resend_quastion = password.find_resend_question(language)
+        result_resend_link = password.find_resend_link(language)
         assert result_resend_quastion and result_resend_link, f'Текст вопроса не найден {result_resend_quastion} или ссылка не найдена {result_resend_link}'
 
-
-
-
+    @allure.sub_suite("7. При клике по ссылке Click to Resend / Нажмите, чтобы отправить повторно / Clique para reenviar появляется текст Resend Code / \
+                      Повторная отправка кода / Reenviar código em и время отсчёта 60 секунд")
+    def test_click_resend_link_and_find_timer(self, browser, create_login_and_password):
+        allure.dynamic.title(
+            f"{create_login_and_password} - При клике по ссылке Click to Resend / Нажмите, чтобы отправить повторно / Clique para reenviar появляется \
+                текст Resend Code / Повторная отправка кода / Reenviar código em и время отсчёта 60 секунд")
+        language = create_login_and_password
+        password = VerificationCodePage(browser)
+        password.wait_resend_link(language)
+        assert password.click_resend_link_and_find_60_sec_timer(
+            language), f'Таймер 60 секунд не найден'
         
+    @allure.sub_suite("8. Проверка наличия кнопки Verify/Проверить/Verificar при введении кода подтверждения из 6 символов")
+    def test_check_verify_button(self, browser, create_login_and_password):
+        allure.dynamic.title(
+            f"{create_login_and_password} - Проверка наличия кнопки Verify/Проверить/Verificar при введении кода подтверждения из 6 символов")
+        language = create_login_and_password
+        password = VerificationCodePage(browser)
+        password.type_verification_code(6, '000000')
+        assert password.find_verify_button(
+            language), f'кнопка Verify/Проверить/Verificar не найдена'
 
+    @allure.sub_suite('9. Проверка ввода корректного кода подтверждения - 6 символов')
+    def test_enter_correct_verification_code(self, browser, create_login_and_password):
+        allure.dynamic.title(
+            f'{create_login_and_password} - Проверка ввода корректного кода подтверждения (6 символов) - 000000')
+        language = create_login_and_password
+        password = VerificationCodePage(browser)
+        password.type_verification_code(6, '000000')
+        password.click_verify_button(language)
+        password.wait_lk_url_to_be(data.URL_LK_DASHBOARD)
+        assert password.get_title_dashboard_overview_page(language), f'Нет заголовка Обзорная панель'
 
+    @allure.sub_suite("10. Проверка ввода 1 или 5 символов в поля ввода кода верификации")
+    @pytest.mark.parametrize('number_of_fields, code', [(1, '0'),
+                                                        (5, '00000')])
+    def test_check_no_button_on_the_page(self, browser, create_login_and_password, number_of_fields, code):
+        allure.dynamic.title(
+            f"{create_login_and_password} - Проверка ввода {number_of_fields} символа(ов) в поля ввода кода верификации")
+        language = create_login_and_password
+        password = VerificationCodePage(browser)
+        password.type_verification_code(number_of_fields, code)
+        assert password.check_verify_button(language), f'Кнопка присутствует на странице'
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-###############################################################
-
-    # @allure.sub_suite('4. Проверка ввода корректного кода подтверждения - 5 символов')
-    # def test_enter_correct_verification_code(self, browser, create_login_and_password):
-    #     allure.dynamic.title(
-    #         f'{create_login_and_password} - Проверка ввода корректного кода подтверждения (5 символов) - 00000')
-    #     language = create_login_and_password
-    #     password = VerificationCodePage(browser)
-    #     current_url = password.click_change_email_link_and_get_current_url(
-    #         language)
-    #     assert current_url == data.URL_SIGNIN, f'Актуальный url {current_url} не равен ожидаемому {data.URL_SIGNIN}'
+    @allure.sub_suite("11. Проверка ввода некорректного кода")
+    @pytest.mark.parametrize('number_of_fields, code, description', [(6, '123456', 'Неправильный код подтверждения'),
+                                                                     (6, 'abcdef', 'Ввод символов'),
+                                                                     (6, '!@#$%&', 'Ввод спецсиволов')])
+    def test_type_incorrect_code_and_check_error_message(self, browser, create_login_and_password, number_of_fields, code, description):
+        allure.dynamic.title(
+            f"{create_login_and_password} - Проверка ввода некорректного кода в поля ввода кода верификации - {description}")
+        language = create_login_and_password
+        password = VerificationCodePage(browser)
+        password.type_verification_code(number_of_fields, code)
+        password.click_verify_button(language)
+        assert password.find_and_get_error_message(
+            language), f'Нет текста ошибки'
