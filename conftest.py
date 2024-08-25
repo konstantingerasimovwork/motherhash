@@ -36,7 +36,7 @@ from helpers import fake_email, fake_random_password
 @allure.title('Инициализация драйвера Chrome')
 def browser():
     options = Options()
-    # options.add_argument("--headless")
+    options.add_argument("--headless")
     options.add_argument('--window-size=1920,1080')
     browser = webdriver.Chrome(options=options)
     yield browser
